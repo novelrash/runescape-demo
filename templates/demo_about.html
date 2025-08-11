@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - RuneScape Competition Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .demo-banner {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #444;
+        }
+        .feature-card h3 {
+            color: #f7931e;
+            margin-top: 0;
+        }
+        .tech-stack {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #444;
+            margin: 20px 0;
+        }
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .tech-item {
+            background: #333;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #f7931e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="demo-banner">
+            🎮 DEMO VERSION - Showcasing RuneScape Competition Features 🎮
+        </div>
+
+        <header>
+            <h1>📋 About This Demo</h1>
+            <nav>
+                <a href="{{ url_for('index') }}">Leaderboard</a>
+                <a href="{{ url_for('tiles') }}">Tiles</a>
+                <a href="{{ url_for('teams') }}">Teams</a>
+                <a href="{{ url_for('about') }}">About Demo</a>
+            </nav>
+        </header>
+
+        <div class="content">
+            <h2>🎯 What This Demo Showcases</h2>
+            <p>This containerized demo version showcases the core features of the production RuneScape Competition Leaderboard system. It uses sample data to demonstrate the functionality without requiring live competition data.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🏆 Team Competition</h3>
+                    <p>Teams compete for the highest total points through collaborative achievement completion. Real-time team standings and member contributions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🎯 Individual Tracking</h3>
+                    <p>Individual player progress with detailed completion history, personal statistics, and achievement breakdowns.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📋 Achievement System</h3>
+                    <p>Comprehensive tile/achievement system with difficulty ratings, point values, and completion tracking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>⚡ Real-time Updates</h3>
+                    <p>Live completion feed showing recent achievements, points earned, and team progress updates.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📊 Advanced Analytics</h3>
+                    <p>Detailed statistics, progress tracking, and performance metrics for teams and individuals.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🎮 RuneScape Integration</h3>
+                    <p>Designed specifically for RuneScape competitions with game-appropriate achievements and terminology.</p>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <h3>🔧 Technology Stack</h3>
+                <div class="tech-list">
+                    <span class="tech-item">Python Flask</span>
+                    <span class="tech-item">SQLite Database</span>
+                    <span class="tech-item">Docker Container</span>
+                    <span class="tech-item">Responsive HTML/CSS</span>
+                    <span class="tech-item">RESTful API</span>
+                    <span class="tech-item">Gunicorn WSGI</span>
+                </div>
+            </div>
+
+            <h2>📈 Demo Data</h2>
+            <p>This demo includes:</p>
+            <ul>
+                <li><strong>6 Teams</strong> - Iron Warriors, Dragon Slayers, Void Knights, etc.</li>
+                <li><strong>18 Competitors</strong> - Including famous RuneScape players like Zezima, Woox, B0aty</li>
+                <li><strong>20 Achievements</strong> - Ranging from Easy (Dragon Slayer) to Extreme (Inferno)</li>
+                <li><strong>Random Completions</strong> - Generated sample completion data for demonstration</li>
+            </ul>
+
+            <h2>🚀 Production Features</h2>
+            <p>The production version includes additional features:</p>
+            <ul>
+                <li>Admin dashboard for competition management</li>
+                <li>Real-time submission system</li>
+                <li>Authentication and user management</li>
+                <li>Discord integration for notifications</li>
+                <li>Advanced reporting and analytics</li>
+                <li>Database backup and recovery</li>
+                <li>Scalable cloud deployment</li>
+            </ul>
+
+            <h2>🐳 Container Deployment</h2>
+            <p>This demo is fully containerized and can be deployed anywhere Docker is supported:</p>
+            <pre style="background: #333; padding: 15px; border-radius: 5px; overflow-x: auto;">
+# Build the container
+docker build -t runescape-competition-demo .
+
+# Run the demo
+docker run -p 5000:5000 runescape-competition-demo
+
+# Access at http://localhost:5000
+            </pre>
+
+            <h2>📞 Contact</h2>
+            <p>This demo showcases a production-ready competition management system. For more information about the full system or custom implementations, please reach out!</p>
+        </div>
+
+        <footer>
+            <p>🎮 RuneScape Competition Demo - Built with Flask, Docker, and ❤️</p>
+        </footer>
+    </div>
+</body>
+</html>

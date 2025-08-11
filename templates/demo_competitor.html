@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ competitor.rsn }} - RuneScape Competition Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .demo-banner {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .player-header {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #444;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .player-name {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #f7931e;
+            margin: 0 0 10px 0;
+        }
+        .player-team {
+            font-size: 1.2em;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #444;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .stat-label {
+            color: #ccc;
+            margin-top: 5px;
+        }
+        .difficulty-breakdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .difficulty-card {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .difficulty-easy { background: #4CAF50; color: white; }
+        .difficulty-medium { background: #FF9800; color: white; }
+        .difficulty-hard { background: #F44336; color: white; }
+        .difficulty-extreme { background: #9C27B0; color: white; }
+        .completions-section {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #444;
+            margin: 20px 0;
+        }
+        .completions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .completions-table th,
+        .completions-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        .completions-table th {
+            background: #333;
+            color: #f7931e;
+            font-weight: bold;
+        }
+        .completions-table tr:hover {
+            background: #333;
+        }
+        .achievement-name {
+            font-weight: bold;
+            color: #f7931e;
+        }
+        .points-earned {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .back-button {
+            display: inline-block;
+            background: #f7931e;
+            color: black;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .back-button:hover {
+            background: #ff6b35;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="demo-banner">
+            🎮 DEMO VERSION - Player Profile System 🎮
+        </div>
+
+        <header>
+            <h1>👤 Player Profile</h1>
+            <nav>
+                <a href="{{ url_for('index') }}">Leaderboard</a>
+                <a href="{{ url_for('tiles') }}">Tiles</a>
+                <a href="{{ url_for('teams') }}">Teams</a>
+                <a href="{{ url_for('about') }}">About Demo</a>
+            </nav>
+        </header>
+
+        <a href="{{ url_for('index') }}" class="back-button">← Back to Leaderboard</a>
+
+        <div class="player-header">
+            <h1 class="player-name">{{ competitor.rsn }}</h1>
+            <div class="player-team">Team: {{ competitor.team_name or 'No Team' }}</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_points }}</div>
+                <div class="stat-label">Total Points</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_completions }}</div>
+                <div class="stat-label">Completions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ ((stats.total_completions / 20) * 100)|round|int }}%</div>
+                <div class="stat-label">Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ (stats.total_points / stats.total_completions)|round(1) if stats.total_completions > 0 else 0 }}</div>
+                <div class="stat-label">Avg Points</div>
+            </div>
+        </div>
+
+        <div class="completions-section">
+            <h3>📊 Difficulty Breakdown</h3>
+            <div class="difficulty-breakdown">
+                <div class="difficulty-card difficulty-easy">
+                    <div style="font-size: 1.5em;">{{ stats.easy_count }}</div>
+                    <div>Easy</div>
+                </div>
+                <div class="difficulty-card difficulty-medium">
+                    <div style="font-size: 1.5em;">{{ stats.medium_count }}</div>
+                    <div>Medium</div>
+                </div>
+                <div class="difficulty-card difficulty-hard">
+                    <div style="font-size: 1.5em;">{{ stats.hard_count }}</div>
+                    <div>Hard</div>
+                </div>
+                <div class="difficulty-card difficulty-extreme">
+                    <div style="font-size: 1.5em;">{{ stats.extreme_count }}</div>
+                    <div>Extreme</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="completions-section">
+            <h3>🏆 Achievement History</h3>
+            {% if completions %}
+            <table class="completions-table">
+                <thead>
+                    <tr>
+                        <th>Achievement</th>
+                        <th>Description</th>
+                        <th>Difficulty</th>
+                        <th>Points</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for completion in completions %}
+                    <tr>
+                        <td class="achievement-name">{{ completion.name }}</td>
+                        <td>{{ completion.description }}</td>
+                        <td>
+                            <span class="tile-difficulty difficulty-{{ completion.difficulty.lower() }}" 
+                                  style="padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold;">
+                                {{ completion.difficulty }}
+                            </span>
+                        </td>
+                        <td class="points-earned">+{{ completion.points }}</td>
+                        <td>{{ completion.completed_at[:16] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #ccc; padding: 20px;">
+                No completions yet. Start completing achievements to see them here!
+            </p>
+            {% endif %}
+        </div>
+
+        <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; border: 2px solid #444; margin-top: 20px;">
+            <h3 style="color: #f7931e; margin-top: 0;">🎯 Performance Summary</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <div>
+                    <strong>Strongest Category:</strong><br>
+                    <span style="color: #4CAF50;">
+                        {% if stats.extreme_count > 0 %}Extreme Challenges{% elif stats.hard_count > 0 %}Hard Challenges{% elif stats.medium_count > 0 %}Medium Challenges{% else %}Easy Challenges{% endif %}
+                    </span>
+                </div>
+                <div>
+                    <strong>Recent Activity:</strong><br>
+                    <span style="color: #4CAF50;">
+                        {% if completions %}{{ completions|length }} recent completions{% else %}No recent activity{% endif %}
+                    </span>
+                </div>
+                <div>
+                    <strong>Team Contribution:</strong><br>
+                    <span style="color: #4CAF50;">{{ stats.total_points }} points earned</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🎮 RuneScape Competition Demo - Player: {{ competitor.rsn }}</p>
+        </footer>
+    </div>
+</body>
+</html>
