@@ -1,0 +1,318 @@
+/* Additional CSS for tile completion categories */
+
+/* User Context Display */
+.user-context {
+    margin-top: 16px;
+    padding: 12px 20px;
+    background: rgba(255, 176, 0, 0.1);
+    border: 1px solid rgba(255, 176, 0, 0.3);
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.user-info {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.user-info i {
+    color: var(--osrs-gold);
+    margin-right: 6px;
+}
+
+.user-info strong {
+    color: var(--osrs-gold);
+}
+
+/* Personal Status Indicators */
+.personal-status {
+    margin-top: 8px;
+}
+
+.status-me {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    color: var(--success-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(16, 185, 129, 0.15);
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.status-team {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    color: var(--osrs-gold);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(255, 176, 0, 0.15);
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 176, 0, 0.4);
+}
+
+.status-available-personal {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Tile Category Styling */
+.tile-completed_by_me {
+    border-color: rgba(16, 185, 129, 0.5);
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.05) 100%);
+}
+
+.tile-completed_by_me:hover {
+    border-color: rgba(16, 185, 129, 0.7);
+    box-shadow: 0 12px 40px rgba(16, 185, 129, 0.2);
+}
+
+.tile-completed_by_me .tile-header {
+    background: rgba(16, 185, 129, 0.1);
+    border-bottom-color: rgba(16, 185, 129, 0.2);
+}
+
+.tile-completed_by_team {
+    border-color: rgba(255, 176, 0, 0.5);
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 176, 0, 0.05) 100%);
+}
+
+.tile-completed_by_team:hover {
+    border-color: rgba(255, 176, 0, 0.7);
+    box-shadow: 0 12px 40px rgba(255, 176, 0, 0.2);
+}
+
+.tile-completed_by_team .tile-header {
+    background: rgba(255, 176, 0, 0.1);
+    border-bottom-color: rgba(255, 176, 0, 0.2);
+}
+
+.tile-available {
+    border-color: var(--border-color);
+    background: var(--bg-card);
+}
+
+.tile-available:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.tile-available .tile-header {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Enhanced tile header for better status display */
+.tile-header {
+    min-height: 100px; /* Increased to accommodate personal status */
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.tile-header > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* Filter dropdown enhancements */
+.form-control option {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+/* Category-specific hover effects */
+.tile-completed_by_me:hover .tile-name {
+    color: var(--success-color);
+}
+
+.tile-completed_by_team:hover .tile-name {
+    color: var(--osrs-gold);
+}
+
+.tile-available:hover .tile-name {
+    color: var(--osrs-gold);
+}
+
+/* Status icon colors */
+.status-me i {
+    color: var(--success-color);
+}
+
+.status-team i {
+    color: var(--osrs-gold);
+}
+
+.status-available-personal i {
+    color: var(--text-secondary);
+}
+
+/* Mobile responsiveness for personal status */
+@media (max-width: 768px) {
+    .user-context {
+        margin-top: 12px;
+        padding: 10px 16px;
+    }
+    
+    .user-info {
+        font-size: 0.85rem;
+    }
+    
+    .personal-status {
+        margin-top: 6px;
+    }
+    
+    .status-me,
+    .status-team,
+    .status-available-personal {
+        font-size: 0.75rem;
+        padding: 3px 6px;
+        justify-content: center;
+    }
+    
+    .tile-header {
+        min-height: 90px;
+    }
+}
+
+@media (max-width: 576px) {
+    .user-context {
+        display: block;
+        text-align: center;
+    }
+    
+    .tile-header {
+        min-height: 85px;
+    }
+    
+    .tile-header > div:first-child {
+        margin-bottom: 6px;
+    }
+}
+
+/* Animation for category changes */
+.tile-card {
+    transition: all 0.4s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+/* Filter count badges in dropdown */
+.form-control option {
+    font-weight: 500;
+}
+
+/* Empty state variations */
+.empty-state.filter-specific {
+    padding: 60px 20px;
+}
+
+.empty-state.filter-specific i {
+    font-size: 3rem;
+}
+
+.empty-state.filter-specific h3 {
+    font-size: 1.4rem;
+}
+
+/* Loading state for when RSN is being set */
+.tiles-loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.tiles-loading::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid var(--osrs-gold);
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 9999;
+}
+
+/* Improved visual hierarchy for different statuses */
+.tile-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+/* Better spacing for multiple status indicators */
+.tile-status > * {
+    flex-shrink: 0;
+}
+
+/* Tile submission buttons */
+.tile-actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.tile-submit-btn {
+    width: 100%;
+    padding: 10px 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.tile-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+}
+
+.tile-completed_by_me .tile-submit-btn {
+    background: var(--text-secondary);
+    border-color: var(--text-secondary);
+    color: var(--bg-card);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.tile-completed_by_me .tile-submit-btn::after {
+    content: " (Completed)";
+}
+
+
+/* Focus states for filter dropdown */
+#filter:focus {
+    border-color: var(--osrs-gold);
+    box-shadow: 0 0 0 0.2rem rgba(255, 176, 0, 0.25);
+}
+
+/* Subtle animation for status changes */
+.personal-status {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

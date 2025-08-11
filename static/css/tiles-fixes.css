@@ -1,0 +1,322 @@
+/* Tiles Page Fixes - Prevents navbar lurching and improves UX */
+
+/* Modal Fixes - Prevent navbar lurching */
+.modal-open {
+    overflow: hidden;
+}
+
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom,
+.modal-open .navbar {
+    padding-right: 0 !important;
+    transition: none;
+}
+
+.modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+/* Search Input Improvements */
+.search-input {
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 176, 0, 0.1) !important;
+    border-color: var(--osrs-gold) !important;
+}
+
+/* Autocomplete Improvements */
+.autocomplete-container {
+    position: relative;
+}
+
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.autocomplete-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+    background: rgba(255, 176, 0, 0.1);
+    color: var(--osrs-gold);
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item .player-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.autocomplete-item .player-team {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.autocomplete-item:hover .player-name,
+.autocomplete-item.active .player-name {
+    color: var(--osrs-gold);
+}
+
+/* Filter Buttons Improvements */
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.filter-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.filter-btn.active {
+    background: rgba(255, 176, 0, 0.1);
+    border-color: rgba(255, 176, 0, 0.3);
+    color: var(--osrs-gold);
+}
+
+/* Sort Controls Improvements */
+.sort-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.sort-select {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.sort-select:focus {
+    background: var(--bg-secondary);
+    border-color: var(--osrs-gold);
+    box-shadow: 0 0 0 3px rgba(255, 176, 0, 0.1);
+    color: var(--text-primary);
+    outline: none;
+}
+
+/* Tile Card Improvements */
+.tile-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tile-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal Content Improvements */
+.submission-modal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+}
+
+.submission-modal .modal-header {
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.submission-modal .modal-footer {
+    border-top: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.submission-modal .modal-title {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.submission-modal .form-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.submission-modal .form-control {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+}
+
+.submission-modal .form-control:focus {
+    background: var(--bg-secondary);
+    border-color: var(--osrs-gold);
+    box-shadow: 0 0 0 3px rgba(255, 176, 0, 0.1);
+    color: var(--text-primary);
+    outline: none;
+}
+
+.submission-modal .alert {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    border-radius: 8px;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .sort-controls {
+        flex-direction: column;
+    }
+    
+    .filter-buttons {
+        justify-content: center;
+    }
+    
+    .filter-btn {
+        flex: 1;
+        text-align: center;
+        min-width: 80px;
+    }
+    
+    .autocomplete-results {
+        max-height: 150px;
+    }
+    
+    .autocomplete-item {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-section {
+        padding: 20px;
+    }
+    
+    .search-section .row {
+        gap: 16px;
+    }
+    
+    .submission-modal .modal-dialog {
+        margin: 10px;
+    }
+    
+    .submission-modal .modal-content {
+        border-radius: 12px;
+    }
+}
+
+/* Animation Improvements */
+.tile-card {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Focus Improvements */
+.search-input:focus,
+.sort-select:focus,
+.form-control:focus {
+    z-index: 2;
+    position: relative;
+}
+
+/* Prevent layout shifts */
+.navbar {
+    transition: padding-right 0.15s ease-in-out;
+}
+
+.modal-open .navbar {
+    transition: none;
+}
+
+/* Toast Improvements */
+.toast {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toast.bg-success {
+    background: rgba(16, 185, 129, 0.9) !important;
+}
+
+.toast.bg-danger {
+    background: rgba(239, 68, 68, 0.9) !important;
+}
+
+.toast.bg-info {
+    background: rgba(59, 130, 246, 0.9) !important;
+}

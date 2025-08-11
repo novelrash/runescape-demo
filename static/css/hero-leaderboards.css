@@ -1,0 +1,324 @@
+/* Hero Section Leaderboards - High Specificity Override */
+
+/* Override the main CSS with very specific selectors */
+.hero-section .hero-visual .row .col-md-6 .floating-card.main-card {
+    /* Override absolute positioning */
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    
+    /* Override width and animation */
+    width: 100% !important;
+    animation: none !important;
+    
+    /* Set our styling */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    
+    /* Fixed height and flexbox */
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-section .hero-visual .row .col-md-6 .floating-card.main-card:hover {
+    /* Override transform */
+    transform: none !important;
+    
+    /* Subtle hover effects */
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 176, 0, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Ensure Bootstrap grid works properly */
+.hero-section .hero-visual {
+    position: relative;
+}
+
+.hero-section .hero-visual .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
+
+.hero-section .hero-visual .col-md-6 {
+    flex: 0 0 auto;
+    width: 50%;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    position: relative;
+}
+
+/* Card structure with high specificity */
+.hero-section .hero-visual .floating-card.main-card .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    height: 70px;
+    flex-shrink: 0;
+}
+
+.hero-section .hero-visual .floating-card.main-card .card-header i {
+    color: var(--osrs-gold);
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.hero-section .hero-visual .floating-card.main-card .card-header span {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.hero-section .hero-visual .floating-card.main-card .card-body {
+    padding: 0;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 280px;
+    max-height: 280px;
+}
+
+.hero-section .hero-visual .floating-card.main-card .card-footer {
+    padding: 16px 22px;
+    background: rgba(255, 255, 255, 0.03);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    height: 70px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Status indicator */
+.hero-section .hero-visual .status-indicator {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Leaderboard items */
+.hero-section .hero-visual .leaderboard-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    height: 56px;
+}
+
+.hero-section .hero-visual .leaderboard-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.hero-section .hero-visual .leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+/* Rank styling */
+.hero-section .hero-visual .rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-right: 14px;
+    flex-shrink: 0;
+}
+
+.hero-section .hero-visual .leaderboard-item:nth-child(1) .rank {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: var(--bg-primary);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.hero-section .hero-visual .leaderboard-item:nth-child(2) .rank {
+    background: linear-gradient(135deg, #c0c0c0 0%, #e5e5e5 100%);
+    color: var(--bg-primary);
+    box-shadow: 0 4px 12px rgba(192, 192, 192, 0.4);
+}
+
+.hero-section .hero-visual .leaderboard-item:nth-child(3) .rank {
+    background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(205, 127, 50, 0.4);
+}
+
+.hero-section .hero-visual .leaderboard-item:nth-child(n+4) .rank {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Team/Player info */
+.hero-section .hero-visual .team-info, 
+.hero-section .hero-visual .player-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.hero-section .hero-visual .team-name, 
+.hero-section .hero-visual .player-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hero-section .hero-visual .team-points, 
+.hero-section .hero-visual .player-points {
+    font-size: 0.82rem;
+    color: var(--osrs-gold);
+    font-weight: 500;
+}
+
+.hero-section .hero-visual .team-tiles, 
+.hero-section .hero-visual .player-team {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-align: right;
+    min-width: 70px;
+    max-width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+}
+
+.hero-section .hero-visual .player-team {
+    color: var(--osrs-gold);
+    font-weight: 600;
+}
+
+/* View all link */
+.hero-section .hero-visual .view-all-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+}
+
+.hero-section .hero-visual .view-all-link:hover {
+    color: var(--osrs-gold);
+    background: rgba(255, 176, 0, 0.08);
+    border-color: rgba(255, 176, 0, 0.25);
+    text-decoration: none;
+}
+
+.hero-section .hero-visual .view-all-link i {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+.hero-section .hero-visual .view-all-link:hover i {
+    transform: translateX(2px);
+}
+
+/* Loading and error states */
+.hero-section .hero-visual .loading-placeholder,
+.hero-section .hero-visual .error-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.hero-section .hero-visual .loading-placeholder i,
+.hero-section .hero-visual .error-placeholder i {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: var(--osrs-gold);
+}
+
+.hero-section .hero-visual .loading-placeholder i {
+    animation: spin 1s linear infinite;
+}
+
+.hero-section .hero-visual .error-placeholder i {
+    color: #ef4444;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 767px) {
+    .hero-section .hero-visual .col-md-6 {
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-section .hero-visual .col-md-6:last-child {
+        margin-bottom: 0;
+    }
+    
+    .hero-section .hero-visual .floating-card.main-card {
+        height: 380px;
+    }
+    
+    .hero-section .hero-visual .floating-card.main-card .card-body {
+        min-height: 240px;
+        max-height: 240px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section .hero-visual .team-tiles, 
+    .hero-section .hero-visual .player-team {
+        display: none;
+    }
+    
+    .hero-section .hero-visual .floating-card.main-card {
+        height: 350px;
+    }
+    
+    .hero-section .hero-visual .floating-card.main-card .card-body {
+        min-height: 220px;
+        max-height: 220px;
+    }
+}

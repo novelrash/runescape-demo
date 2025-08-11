@@ -1,0 +1,481 @@
+/* Tiles Page - Hybrid Styling - Updated */
+
+/* Search Section */
+.search-section {
+    padding: 40px 0;
+    background: var(--bg-secondary);
+}
+
+.search-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.search-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.search-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.search-header i {
+    color: var(--osrs-gold);
+    font-size: 1.5rem;
+}
+
+.search-header h3 {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.search-form .form-group {
+    margin-bottom: 0;
+}
+
+.search-form .form-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.search-form .form-label i {
+    color: var(--osrs-gold);
+    font-size: 0.85rem;
+}
+
+.search-actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.search-actions .btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.search-actions .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Tiles Section */
+.tiles-section {
+    padding: 60px 0;
+    background: var(--bg-primary);
+    min-height: 60vh;
+}
+
+.tiles-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tiles-header h2 {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.tiles-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.count-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--osrs-gold);
+    line-height: 1;
+}
+
+.count-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Tile Cards */
+.tile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.tile-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--border-hover);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Tile Header */
+.tile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-color);
+    min-height: 80px; /* Consistent height even without status */
+}
+
+.tile-points {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--osrs-gold);
+    color: var(--bg-primary);
+    padding: 8px 12px;
+    border-radius: 10px;
+    min-width: 60px;
+}
+
+.points-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.points-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tile-status {
+    flex: 1;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.status-completed {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    color: var(--success-color);
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-completed i {
+    color: var(--success-color);
+}
+
+/* When no status, the tile-status div will be empty but maintain layout */
+.tile-status:empty {
+    min-height: 32px; /* Maintain consistent spacing */
+}
+
+/* Tile Content */
+.tile-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.tile-description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex: 1;
+    margin: 0;
+}
+
+/* Tile Footer */
+.tile-footer {
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid var(--border-color);
+}
+
+.tile-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.meta-item i {
+    color: var(--osrs-gold);
+    font-size: 0.8rem;
+}
+
+/* Special styling for tiles with no completions */
+.tile-card[data-completions="0"] .tile-header {
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.tile-card[data-completions="0"] .tile-name {
+    color: var(--text-primary);
+}
+
+/* Special styling for tiles with completions */
+.tile-card:not([data-completions="0"]) .tile-header {
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.tile-card:not([data-completions="0"]) .tile-name {
+    color: var(--text-primary);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-secondary);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 24px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    margin-bottom: 24px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Search Highlighting */
+mark {
+    background: rgba(255, 176, 0, 0.3);
+    color: var(--osrs-gold);
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .search-section {
+        padding: 30px 0;
+    }
+    
+    .search-card {
+        padding: 24px;
+    }
+    
+    .search-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .search-actions {
+        flex-direction: column;
+    }
+    
+    .search-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .tiles-section {
+        padding: 40px 0;
+    }
+    
+    .tiles-header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+    
+    .tiles-header h2 {
+        font-size: 1.6rem;
+    }
+    
+    .tile-card:hover {
+        transform: translateY(-4px);
+    }
+    
+    .tile-header {
+        padding: 16px 20px;
+        min-height: 70px;
+    }
+    
+    .tile-content {
+        padding: 20px;
+    }
+    
+    .tile-footer {
+        padding: 16px 20px;
+    }
+    
+    .tile-meta {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-card {
+        padding: 20px;
+    }
+    
+    .tile-name {
+        font-size: 1.1rem;
+    }
+    
+    .tile-description {
+        font-size: 0.9rem;
+    }
+    
+    .empty-state {
+        padding: 60px 20px;
+    }
+    
+    .empty-state i {
+        font-size: 3rem;
+    }
+    
+    .empty-state h3 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover effects for better UX */
+.tile-card:hover .tile-points {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 176, 0, 0.4);
+}
+
+.tile-card:hover .tile-name {
+    color: var(--osrs-gold);
+}
+
+.tile-card:hover .status-completed {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.5);
+}
+
+/* Focus states for accessibility */
+.search-form input:focus,
+.search-form select:focus {
+    border-color: var(--osrs-gold);
+    box-shadow: 0 0 0 0.2rem rgba(255, 176, 0, 0.25);
+}
+
+/* Loading state for tile cards */
+.tile-card.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.tile-card.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--osrs-gold);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Improved completion count styling */
+.status-completed {
+    font-variant-numeric: tabular-nums; /* Better number alignment */
+}
+
+/* Better visual hierarchy for tiles with many completions */
+.tile-card[data-completions] .status-completed {
+    position: relative;
+}
+
+/* Add subtle animation to completion status */
+.status-completed {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

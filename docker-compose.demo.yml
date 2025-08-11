@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  runescape-competition-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile.demo
+    container_name: runescape-demo
+    ports:
+      - "5000:5000"
+    volumes:
+      - demo_data:/app/data
+    environment:
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5000/api/stats')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.runescape-demo.rule=Host(`localhost`)"
+      - "traefik.http.services.runescape-demo.loadbalancer.server.port=5000"
+
+volumes:
+  demo_data:
+    driver: local

@@ -1,0 +1,320 @@
+/* Side-by-Side Leaderboard Layout */
+
+.leaderboard-section {
+    padding: 80px 0;
+    background: var(--bg-primary);
+    position: relative;
+}
+
+.leaderboard-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, rgba(255, 176, 0, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.section-header {
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.section-description {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Leaderboard Cards */
+.leaderboard-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+    height: 100%;
+    overflow: hidden;
+}
+
+.leaderboard-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.leaderboard-card .card-header {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 24px;
+    border-radius: 16px 16px 0 0;
+}
+
+.leaderboard-card .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.leaderboard-card .card-title i {
+    color: var(--osrs-gold);
+    font-size: 1.125rem;
+}
+
+.leaderboard-card .card-body {
+    padding: 0;
+}
+
+/* Table Styling */
+.leaderboard-card .table {
+    margin: 0;
+    background: transparent;
+}
+
+.leaderboard-card .table th {
+    background: rgba(255, 255, 255, 0.03);
+    border: none;
+    padding: 16px 20px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.leaderboard-card .table td {
+    border: none;
+    padding: 16px 20px;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.leaderboard-card .table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.leaderboard-card .table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Rank Badges */
+.rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: white;
+}
+
+.rank-badge.rank-1 {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: var(--bg-primary);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+.rank-badge.rank-2 {
+    background: linear-gradient(135deg, #c0c0c0 0%, #e5e5e5 100%);
+    color: var(--bg-primary);
+    box-shadow: 0 4px 12px rgba(192, 192, 192, 0.3);
+}
+
+.rank-badge.rank-3 {
+    background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(205, 127, 50, 0.3);
+}
+
+.rank-badge:not(.rank-1):not(.rank-2):not(.rank-3) {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+/* Team Cell */
+.team-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.team-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.team-members {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Player Cell */
+.player-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.player-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.player-team {
+    font-size: 0.8rem;
+    color: var(--osrs-gold);
+    font-weight: 500;
+}
+
+/* Points Cell */
+.points-cell {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.points-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--osrs-gold);
+}
+
+.points-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Tiles Cell */
+.tiles-cell {
+    text-align: center;
+}
+
+.tiles-value {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991px) {
+    .leaderboard-section {
+        padding: 60px 0;
+    }
+    
+    .section-header {
+        margin-bottom: 40px;
+    }
+    
+    .leaderboard-card {
+        margin-bottom: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .leaderboard-card .card-header {
+        padding: 16px 20px;
+    }
+    
+    .leaderboard-card .card-title {
+        font-size: 1.125rem;
+    }
+    
+    .leaderboard-card .table th,
+    .leaderboard-card .table td {
+        padding: 12px 16px;
+    }
+    
+    .team-name,
+    .player-name {
+        font-size: 0.9rem;
+    }
+    
+    .team-members,
+    .player-team {
+        font-size: 0.75rem;
+    }
+    
+    .points-value {
+        font-size: 1rem;
+    }
+    
+    .rank-badge {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .leaderboard-card .table th:nth-child(4),
+    .leaderboard-card .table td:nth-child(4) {
+        display: none;
+    }
+    
+    .leaderboard-card .card-header {
+        padding: 12px 16px;
+    }
+    
+    .leaderboard-card .table th,
+    .leaderboard-card .table td {
+        padding: 10px 12px;
+    }
+}
+
+/* Animation for leaderboard entries */
+.leaderboard-row {
+    animation: slideInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.leaderboard-row:nth-child(1) { animation-delay: 0.1s; }
+.leaderboard-row:nth-child(2) { animation-delay: 0.2s; }
+.leaderboard-row:nth-child(3) { animation-delay: 0.3s; }
+.leaderboard-row:nth-child(4) { animation-delay: 0.4s; }
+.leaderboard-row:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover effects for better interactivity */
+.leaderboard-row:hover .team-name,
+.leaderboard-row:hover .player-name {
+    color: var(--osrs-gold);
+    transition: color 0.3s ease;
+}
+
+.leaderboard-row:hover .rank-badge:not(.rank-1):not(.rank-2):not(.rank-3) {
+    background: rgba(255, 176, 0, 0.1);
+    border-color: rgba(255, 176, 0, 0.3);
+    color: var(--osrs-gold);
+    transition: all 0.3s ease;
+}

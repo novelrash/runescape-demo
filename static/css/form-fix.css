@@ -1,0 +1,140 @@
+/* Form Input Visibility Fix */
+/* Ensures text is clearly visible in all form inputs */
+
+.form-control, 
+.form-select, 
+.search-input,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+    background: #2a2a2a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    color: #ffffff !important;
+    padding: 12px 16px !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus, 
+.form-select:focus, 
+.search-input:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    background: #1a1a1a !important;
+    border-color: #ffb000 !important;
+    box-shadow: 0 0 0 3px rgba(255, 176, 0, 0.1) !important;
+    color: #ffffff !important;
+    outline: none !important;
+}
+
+.form-control::placeholder,
+.search-input::placeholder,
+input::placeholder,
+textarea::placeholder {
+    color: #71717a !important;
+    opacity: 1 !important;
+}
+
+/* Autocomplete styling */
+.autocomplete-results {
+    background: #2a2a2a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.autocomplete-item {
+    color: #ffffff !important;
+}
+
+.autocomplete-item:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.player-name {
+    color: #ffffff !important;
+}
+
+.player-team {
+    color: #a1a1aa !important;
+}
+
+/* Form labels */
+.form-label {
+    color: #a1a1aa !important;
+    font-weight: 500 !important;
+}
+
+/* Select dropdowns */
+.form-select option {
+    background: #2a2a2a !important;
+    color: #ffffff !important;
+}
+
+/* Modal form inputs */
+.modal .form-control,
+.modal .form-select,
+.modal input {
+    background: #2a2a2a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.modal .form-control:focus,
+.modal .form-select:focus,
+.modal input:focus {
+    background: #1a1a1a !important;
+    border-color: #ffb000 !important;
+    color: #ffffff !important;
+}
+
+/* Search section inputs */
+.search-section .form-control,
+.search-section .form-select {
+    background: #2a2a2a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.search-section .form-control:focus,
+.search-section .form-select:focus {
+    background: #1a1a1a !important;
+    border-color: #ffb000 !important;
+    color: #ffffff !important;
+}
+
+/* Admin form inputs */
+.content-card .form-control,
+.content-card .form-select,
+.content-card textarea {
+    background: #2a2a2a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.content-card .form-control:focus,
+.content-card .form-select:focus,
+.content-card textarea:focus {
+    background: #1a1a1a !important;
+    border-color: #ffb000 !important;
+    color: #ffffff !important;
+}
+
+/* Ensure text is visible in all states */
+.form-control:disabled,
+.form-select:disabled {
+    background: #1a1a1a !important;
+    color: #71717a !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Fix for any remaining invisible text */
+input, textarea, select {
+    color: #ffffff !important;
+}
+
+input:focus, textarea:focus, select:focus {
+    color: #ffffff !important;
+}

@@ -1,0 +1,65 @@
+FROM python:3.11-slim
+
+LABEL maintainer="RuneScape Competition Demo"
+LABEL description="Containerized demo of RuneScape Competition Leaderboard"
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    sqlite3 \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Create app user for security
+RUN useradd --create-home --shell /bin/bash app
+
+# Copy requirements first for better caching
+COPY WORKING-requirements.txt requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Create directories
+RUN mkdir -p /app/data /app/static /app/templates && \
+    chown -R app:app /app
+
+# Copy application files
+COPY app_demo.py /app/
+COPY templates/demo_*.html /app/templates/
+COPY static/ /app/static/
+COPY runescape.jpg /app/static/
+
+# Copy basic CSS if it doesn't exist
+RUN if [ ! -f /app/static/style.css ]; then \
+    echo "/* Basic demo styles */" > /app/static/style.css && \
+    echo "body { font-family: Arial, sans-serif; background: #1a1a1a; color: white; margin: 0; padding: 20px; }" >> /app/static/style.css && \
+    echo ".container { max-width: 1200px; margin: 0 auto; }" >> /app/static/style.css && \
+    echo "header { text-align: center; margin-bottom: 30px; }" >> /app/static/style.css && \
+    echo "nav { margin: 20px 0; }" >> /app/static/style.css && \
+    echo "nav a { color: #f7931e; text-decoration: none; margin: 0 15px; font-weight: bold; }" >> /app/static/style.css && \
+    echo "nav a:hover { text-decoration: underline; }" >> /app/static/style.css && \
+    echo "footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid #444; color: #ccc; }" >> /app/static/style.css; \
+fi
+
+# Set ownership
+RUN chown -R app:app /app
+
+# Switch to app user
+USER app
+
+# Set environment variables
+ENV FLASK_APP=app_demo.py
+ENV FLASK_ENV=production
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:5000/api/stats')" || exit 1
+
+# Expose port
+EXPOSE 5000
+
+# Run the demo application
+CMD ["python", "app_demo.py"]

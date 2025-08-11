@@ -1,0 +1,180 @@
+/* RSN Identity Indicator Styles */
+
+.rsn-indicator {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.rsn-identity {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.rsn-identity:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 176, 0, 0.3);
+}
+
+/* When RSN is set */
+.rsn-indicator.has-rsn .rsn-identity {
+    background: rgba(255, 176, 0, 0.1);
+    border-color: rgba(255, 176, 0, 0.3);
+    color: #ffb000;
+}
+
+.rsn-indicator.has-rsn .rsn-identity:hover {
+    background: rgba(255, 176, 0, 0.15);
+    border-color: rgba(255, 176, 0, 0.5);
+}
+
+/* RSN name display */
+.rsn-name {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin: 0 8px 0 6px;
+    color: inherit;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Set RSN button */
+.rsn-set {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+}
+
+.rsn-set:hover {
+    color: #ffb000;
+}
+
+.rsn-set i {
+    font-size: 0.875rem;
+}
+
+/* Clear RSN button */
+.rsn-clear {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin-left: 4px;
+}
+
+.rsn-clear:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #1e40af;
+}
+
+/* User icon */
+.rsn-identity .fa-user-circle {
+    font-size: 1rem;
+    color: #ffb000;
+}
+
+.rsn-identity .fa-user-plus {
+    font-size: 0.875rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .rsn-identity {
+        padding: 4px 8px;
+    }
+    
+    .rsn-name {
+        max-width: 80px;
+        font-size: 0.8rem;
+    }
+    
+    .rsn-set {
+        font-size: 0.8rem;
+        gap: 4px;
+    }
+    
+    .rsn-set span {
+        display: none;
+    }
+}
+
+/* Animation for RSN changes */
+.rsn-identity {
+    animation: rsnFadeIn 0.3s ease-in-out;
+}
+
+@keyframes rsnFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Tooltip-like behavior */
+.rsn-identity[title] {
+    position: relative;
+}
+
+/* Integration with existing navbar */
+.navbar-nav .rsn-indicator {
+    margin-left: 16px;
+}
+
+/* Ensure proper spacing in navbar */
+.navbar-nav .nav-item:last-child {
+    margin-right: 0;
+}
+
+/* Admin link in footer styling */
+.footer-admin-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-admin-link:hover {
+    color: #ffb000;
+    background: rgba(255, 176, 0, 0.05);
+    border-color: rgba(255, 176, 0, 0.1);
+    text-decoration: none;
+}
+
+.footer-admin-link i {
+    font-size: 0.875rem;
+}

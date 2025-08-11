@@ -1,0 +1,366 @@
+/* Teams Overview Page Styles - Standardized Boxes */
+
+.teams-overview-section {
+    padding: 80px 0;
+    background: var(--bg-primary);
+    min-height: 60vh;
+}
+
+/* Standardized Team Cards - Fixed Height for 4 Players */
+.team-overview-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    height: 520px; /* Fixed height for all cards */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.team-overview-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    border-color: var(--border-hover);
+}
+
+/* Team Header - Fixed Height */
+.team-header {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-color);
+    height: 100px; /* Fixed header height */
+    flex-shrink: 0;
+}
+
+.team-rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--osrs-gold);
+    color: var(--bg-primary);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.team-info {
+    flex: 1;
+    min-width: 0; /* Allow text truncation */
+}
+
+.team-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.stat-item i {
+    color: var(--osrs-gold);
+    font-size: 0.85rem;
+}
+
+/* Team Members Section - Fixed Height for 4 Players */
+.team-members {
+    padding: 24px;
+    flex: 1; /* Take remaining space */
+    display: flex;
+    flex-direction: column;
+    min-height: 300px; /* Minimum height for 4 players */
+    max-height: 300px; /* Maximum height to prevent expansion */
+}
+
+.members-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    height: 30px; /* Fixed header height */
+    flex-shrink: 0;
+}
+
+.members-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.members-count {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* Members List - Fixed Height with Scroll if Needed */
+.members-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 240px; /* Space for 4 members */
+    max-height: 240px;
+}
+
+.member-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    height: 60px; /* Fixed height per member */
+}
+
+.member-item:last-child {
+    border-bottom: none;
+}
+
+.member-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 24px; /* Fixed info height */
+}
+
+.member-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    margin-right: 12px;
+}
+
+.member-contribution {
+    font-size: 0.85rem;
+    color: var(--osrs-gold);
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.member-progress {
+    width: 100%;
+    height: 20px; /* Fixed progress height */
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--osrs-gold) 0%, #ffed4e 100%);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+    min-width: 2px; /* Minimum visible width */
+}
+
+/* Team Actions - Fixed at Bottom */
+.team-actions {
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid var(--border-color);
+    height: 80px; /* Fixed actions height */
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.team-view-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px; /* Fixed button height */
+}
+
+.team-view-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Empty State for Teams with No Members */
+.empty-members {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.empty-members i {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .teams-overview-section {
+        padding: 60px 0;
+    }
+    
+    .team-overview-card {
+        height: 480px; /* Slightly smaller on mobile */
+    }
+    
+    .team-header {
+        padding: 20px;
+        height: 90px;
+    }
+    
+    .team-rank {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+        margin-right: 16px;
+    }
+    
+    .team-name {
+        font-size: 1.25rem;
+    }
+    
+    .team-members {
+        padding: 20px;
+        min-height: 270px;
+        max-height: 270px;
+    }
+    
+    .members-list {
+        min-height: 210px;
+        max-height: 210px;
+    }
+    
+    .team-actions {
+        padding: 16px 20px;
+        height: 76px;
+    }
+    
+    .stat-item {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .team-overview-card {
+        height: 450px;
+    }
+    
+    .team-stats {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .member-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        height: auto;
+    }
+    
+    .member-item {
+        height: 70px; /* Slightly taller on mobile */
+    }
+    
+    .team-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+        height: 110px;
+    }
+    
+    .team-rank {
+        margin-right: 0;
+    }
+    
+    .team-members {
+        min-height: 250px;
+        max-height: 250px;
+    }
+    
+    .members-list {
+        min-height: 190px;
+        max-height: 190px;
+    }
+}
+
+/* Animation for Team Cards */
+.team-overview-card {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.team-overview-card:nth-child(1) { animation-delay: 0.1s; }
+.team-overview-card:nth-child(2) { animation-delay: 0.2s; }
+.team-overview-card:nth-child(3) { animation-delay: 0.3s; }
+.team-overview-card:nth-child(4) { animation-delay: 0.4s; }
+.team-overview-card:nth-child(5) { animation-delay: 0.5s; }
+.team-overview-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ensure consistent grid layout */
+.teams-overview-section .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.teams-overview-section .col-lg-6.col-xl-4 {
+    display: flex;
+    margin-bottom: 2rem;
+}
+
+/* Hover effect for member names */
+.member-item:hover .member-name {
+    color: var(--osrs-gold);
+    transition: color 0.3s ease;
+}

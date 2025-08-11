@@ -1,0 +1,373 @@
+/* Navigation Layout Fix */
+/* Ensures proper left-right alignment and prevents elements from pushing around */
+
+.navbar {
+    padding: 12px 0;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Logo/Brand - Fixed to left */
+.navbar-brand {
+    flex: 0 0 auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-primary) !important;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.navbar-brand:hover {
+    color: var(--osrs-gold) !important;
+}
+
+/* Navigation collapse - Fixed to right */
+.navbar-collapse {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+}
+
+/* Navigation items container */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Individual nav items */
+.nav-item {
+    flex: 0 0 auto;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px !important;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.8) !important;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: var(--osrs-gold) !important;
+    background: rgba(255, 176, 0, 0.1);
+}
+
+.nav-link.active {
+    color: var(--osrs-gold) !important;
+    background: rgba(255, 176, 0, 0.15);
+}
+
+.nav-link i {
+    font-size: 0.875rem;
+    width: 16px;
+    text-align: center;
+}
+
+/* RSN Indicator - Part of right side navigation */
+.rsn-indicator {
+    flex: 0 0 auto;
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.rsn-identity {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    white-space: nowrap;
+}
+
+.rsn-identity:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 176, 0, 0.3);
+}
+
+/* When RSN is set */
+.rsn-indicator.has-rsn .rsn-identity {
+    background: rgba(255, 176, 0, 0.1);
+    border-color: rgba(255, 176, 0, 0.3);
+    color: #ffb000;
+}
+
+.rsn-indicator.has-rsn .rsn-identity:hover {
+    background: rgba(255, 176, 0, 0.15);
+    border-color: rgba(255, 176, 0, 0.5);
+}
+
+/* RSN name display */
+.rsn-name {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin: 0 8px 0 6px;
+    color: inherit;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Set RSN button */
+.rsn-set {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.rsn-set:hover {
+    color: #ffb000;
+}
+
+.rsn-set i {
+    font-size: 0.875rem;
+}
+
+/* Clear RSN button */
+.rsn-clear {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin-left: 4px;
+    flex-shrink: 0;
+}
+
+.rsn-clear:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ff6b6b;
+}
+
+/* User icon */
+.rsn-identity .fa-user-circle {
+    font-size: 1rem;
+    color: #ffb000;
+    flex-shrink: 0;
+}
+
+.rsn-identity .fa-user-plus {
+    font-size: 0.875rem;
+    flex-shrink: 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 0 0 12px 12px;
+        padding: 16px;
+        margin-top: 8px;
+        backdrop-filter: blur(20px);
+    }
+    
+    .navbar-nav {
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+    }
+    
+    .nav-item {
+        width: 100%;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 16px !important;
+    }
+    
+    .rsn-indicator {
+        margin-left: 0;
+        margin-top: 12px;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .rsn-identity {
+        width: 100%;
+        justify-content: center;
+        padding: 8px 16px;
+    }
+    
+    .rsn-name {
+        max-width: none;
+    }
+    
+    .rsn-set span {
+        display: inline;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .brand-text {
+        display: none;
+    }
+    
+    .status-badge {
+        display: none;
+    }
+    
+    .rsn-set span {
+        display: none;
+    }
+    
+    .rsn-name {
+        max-width: 100px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Ensure navbar toggler is properly positioned */
+.navbar-toggler {
+    flex: 0 0 auto;
+    border: none;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler:hover {
+    background: rgba(255, 176, 0, 0.1);
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Fix for logo container */
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--primary-gradient);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.logo-container i {
+    color: white;
+    font-size: 1rem;
+}
+
+/* Brand text styling */
+.brand-text {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.status-badge {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Prevent layout shifts */
+.navbar .container {
+    min-height: 56px;
+}
+
+/* Ensure proper spacing and alignment */
+.navbar-nav.ms-auto {
+    margin-left: 0 !important;
+}
+
+/* Fix Bootstrap conflicts */
+.navbar-expand-lg .navbar-nav {
+    flex-direction: row;
+}
+
+.navbar-expand-lg .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+}
+
+/* Animation for smooth transitions */
+.navbar-collapse.collapsing,
+.navbar-collapse.show {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ensure consistent height across all screen sizes */
+@media (min-width: 992px) {
+    .navbar-nav {
+        align-items: center;
+        height: 40px;
+    }
+    
+    .rsn-indicator {
+        height: 40px;
+        display: flex;
+        align-items: center;
+    }
+}

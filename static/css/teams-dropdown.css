@@ -1,0 +1,524 @@
+/* Teams Dropdown Interface - Clean and Simple */
+
+.teams-list-section {
+    padding: 80px 0;
+    background: var(--bg-primary);
+    min-height: 60vh;
+}
+
+.teams-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Team Row - Clean List Item */
+.team-row {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.team-row:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Team Header - Clickable Row */
+.team-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.team-header:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Team Rank */
+.team-rank {
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.rank-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--osrs-gold);
+    color: var(--bg-primary);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Team Info - Main Content */
+.team-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.team-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.team-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.stat-item i {
+    color: var(--osrs-gold);
+    font-size: 0.85rem;
+}
+
+/* Team Actions - Right Side Buttons */
+.team-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.expand-btn, .detail-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.expand-btn {
+    background: rgba(255, 176, 0, 0.1);
+    color: var(--osrs-gold);
+    border: 1px solid rgba(255, 176, 0, 0.3);
+}
+
+.expand-btn:hover {
+    background: rgba(255, 176, 0, 0.2);
+    border-color: rgba(255, 176, 0, 0.5);
+    color: var(--osrs-gold);
+}
+
+.detail-btn {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.detail-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+/* Team Dropdown - Expandable Content */
+.team-dropdown {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid var(--border-color);
+}
+
+.team-dropdown.expanded {
+    /* Height set dynamically by JavaScript */
+}
+
+/* Members Grid - 2x2 Layout - Compact */
+.members-grid {
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Member Card - Individual Member - Compact */
+.member-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-card:hover {
+    border-color: var(--border-hover);
+    background: rgba(255, 255, 255, 0.03);
+    transform: translateY(-1px);
+}
+
+/* Ranking-based styling */
+.member-card[data-rank="1"] {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 215, 0, 0.03) 100%);
+}
+
+.member-card[data-rank="2"] {
+    border-color: #c0c0c0;
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.08) 0%, rgba(192, 192, 192, 0.03) 100%);
+}
+
+.member-card[data-rank="3"] {
+    border-color: #cd7f32;
+    background: linear-gradient(135deg, rgba(205, 127, 50, 0.08) 0%, rgba(205, 127, 50, 0.03) 100%);
+}
+
+.member-card[data-rank="4"] {
+    border-color: var(--border-color);
+}
+
+.member-rank {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 2px solid var(--bg-primary);
+}
+
+.member-card[data-rank="1"] .member-rank {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: var(--bg-primary);
+}
+
+.member-card[data-rank="2"] .member-rank {
+    background: linear-gradient(135deg, #c0c0c0 0%, #e5e5e5 100%);
+    color: var(--bg-primary);
+}
+
+.member-card[data-rank="3"] .member-rank {
+    background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+    color: white;
+}
+
+.member-card[data-rank="4"] .member-rank {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+.member-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 4px;
+}
+
+.member-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.member-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.member-points {
+    font-size: 0.8rem;
+    color: var(--osrs-gold);
+    font-weight: 600;
+}
+
+.member-contribution {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+/* Empty slot styling - Compact */
+.member-card.empty {
+    border: 2px dashed var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+}
+
+.empty-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+.empty-slot i {
+    font-size: 1rem;
+}
+
+.empty-slot span {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+/* Dropdown Footer */
+.dropdown-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border-top: 1px solid var(--border-color);
+}
+
+.team-summary {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.view-full-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.view-full-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--osrs-gold);
+    text-decoration: none;
+    border-color: var(--border-hover);
+}
+
+/* Empty State */
+.empty-members {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.empty-members i {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+.empty-members p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .teams-list-section {
+        padding: 60px 0;
+    }
+    
+    .team-header {
+        padding: 16px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .team-rank {
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+    
+    .team-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .expand-btn, .detail-btn {
+        flex: 1;
+        justify-content: center;
+    }
+    
+    .members-grid {
+        padding: 12px;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        max-width: 320px;
+    }
+    
+    .member-card {
+        padding: 10px;
+        min-height: 50px;
+    }
+    
+    .member-rank {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+        top: -5px;
+        left: -5px;
+    }
+    
+    .member-name {
+        font-size: 0.8rem;
+    }
+    
+    .member-points {
+        font-size: 0.75rem;
+    }
+    
+    .member-contribution {
+        font-size: 0.65rem;
+    }
+    
+    .dropdown-footer {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+    
+    .team-stats {
+        gap: 12px;
+    }
+    
+    .stat-item {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .team-header {
+        padding: 14px 16px;
+    }
+    
+    .team-name {
+        font-size: 1.1rem;
+    }
+    
+    .rank-number {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+    
+    .members-grid {
+        padding: 10px;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        max-width: 240px;
+    }
+    
+    .member-card {
+        padding: 8px;
+        min-height: 45px;
+    }
+    
+    .member-rank {
+        width: 18px;
+        height: 18px;
+        font-size: 0.65rem;
+    }
+    
+    .member-name {
+        font-size: 0.75rem;
+        margin-bottom: 4px;
+    }
+    
+    .member-points {
+        font-size: 0.7rem;
+    }
+    
+    .member-contribution {
+        font-size: 0.6rem;
+    }
+    
+    .team-stats {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth expand/collapse animation */
+.team-dropdown {
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover effects for better UX */
+.team-row:hover .rank-number {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 176, 0, 0.3);
+}
+
+.member-card:hover .member-rank {
+    transform: scale(1.1);
+}
+
+/* Focus states for accessibility */
+.expand-btn:focus,
+.detail-btn:focus,
+.view-full-btn:focus {
+    outline: 2px solid var(--osrs-gold);
+    outline-offset: 2px;
+}
+
+.team-header:focus {
+    outline: 2px solid var(--osrs-gold);
+    outline-offset: -2px;
+}

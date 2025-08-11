@@ -1,0 +1,360 @@
+<!-- Portfolio Integration Example -->
+<!-- Add this to your portfolio site -->
+
+<div class="project-showcase runescape-demo">
+    <div class="project-header">
+        <h3>🎮 RuneScape Competition Management System</h3>
+        <div class="project-status">
+            <span class="status-badge live">Live Demo</span>
+            <span class="status-badge docker">Containerized</span>
+        </div>
+    </div>
+    
+    <div class="project-preview">
+        <div class="demo-screenshot">
+            <!-- Add a screenshot of your demo here -->
+            <img src="assets/runescape-demo-screenshot.png" alt="RuneScape Competition Demo Screenshot">
+            <div class="demo-overlay">
+                <a href="https://your-demo.onrender.com" target="_blank" class="demo-launch-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Launch Interactive Demo
+                </a>
+            </div>
+        </div>
+        
+        <div class="project-details">
+            <p class="project-description">
+                Full-stack competition management platform featuring team leaderboards, 
+                individual player tracking, achievement systems, and real-time updates. 
+                Built with Flask, containerized with Docker, and deployed on cloud infrastructure.
+            </p>
+            
+            <div class="demo-features">
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-trophy"></i>
+                        <span>Team Competition</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-user"></i>
+                        <span>Player Profiles</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-target"></i>
+                        <span>Achievement System</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Real-time Analytics</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tech-stack">
+                <h4>Technology Stack:</h4>
+                <div class="tech-tags">
+                    <span class="tech-tag python">Python</span>
+                    <span class="tech-tag flask">Flask</span>
+                    <span class="tech-tag sqlite">SQLite</span>
+                    <span class="tech-tag docker">Docker</span>
+                    <span class="tech-tag html">HTML/CSS</span>
+                    <span class="tech-tag responsive">Responsive</span>
+                </div>
+            </div>
+            
+            <div class="project-actions">
+                <a href="https://your-demo.onrender.com" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Live Demo
+                </a>
+                <a href="https://github.com/yourusername/runescape-demo" target="_blank" class="btn btn-secondary">
+                    <i class="fab fa-github"></i> View Code
+                </a>
+                <a href="#" class="btn btn-info" onclick="showTechDetails()">
+                    <i class="fas fa-info-circle"></i> Technical Details
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Expandable technical details -->
+    <div class="tech-details" id="runescape-tech-details" style="display: none;">
+        <div class="tech-section">
+            <h4>🏗️ Architecture</h4>
+            <ul>
+                <li><strong>Backend:</strong> Python Flask with SQLAlchemy ORM</li>
+                <li><strong>Database:</strong> SQLite with sample competition data</li>
+                <li><strong>Frontend:</strong> Responsive HTML/CSS with vanilla JavaScript</li>
+                <li><strong>Deployment:</strong> Docker containerization with health checks</li>
+            </ul>
+        </div>
+        
+        <div class="tech-section">
+            <h4>✨ Key Features</h4>
+            <ul>
+                <li>Team-based competition system with real-time leaderboards</li>
+                <li>Individual player profiles with detailed statistics</li>
+                <li>Achievement system with difficulty-based point scoring</li>
+                <li>Responsive design optimized for all device sizes</li>
+                <li>RESTful API endpoints for data access</li>
+                <li>Containerized deployment with Docker</li>
+            </ul>
+        </div>
+        
+        <div class="tech-section">
+            <h4>📊 Demo Data</h4>
+            <ul>
+                <li><strong>6 Teams:</strong> Iron Warriors, Dragon Slayers, Void Knights, etc.</li>
+                <li><strong>18 Players:</strong> Famous RuneScape players (Zezima, Woox, B0aty)</li>
+                <li><strong>20 Achievements:</strong> Easy to Extreme difficulty levels</li>
+                <li><strong>Sample Completions:</strong> Realistic competition data</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- CSS Styles -->
+<style>
+.project-showcase {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+    border: 2px solid #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-showcase:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(247, 147, 30, 0.2);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.project-header h3 {
+    color: #f7931e;
+    margin: 0;
+    font-size: 1.4em;
+}
+
+.project-status {
+    display: flex;
+    gap: 8px;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.status-badge.live {
+    background: #4CAF50;
+    color: white;
+}
+
+.status-badge.docker {
+    background: #2496ED;
+    color: white;
+}
+
+.project-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.demo-screenshot {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #444;
+}
+
+.demo-screenshot img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.demo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.demo-screenshot:hover .demo-overlay {
+    opacity: 1;
+}
+
+.demo-launch-btn {
+    background: #f7931e;
+    color: black;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.demo-launch-btn:hover {
+    background: #ff6b35;
+}
+
+.project-description {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f7931e;
+    font-size: 0.9em;
+}
+
+.tech-stack h4 {
+    color: #f7931e;
+    margin: 16px 0 8px 0;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tech-tag {
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    border: 1px solid #555;
+}
+
+.tech-tag.python { border-color: #3776ab; }
+.tech-tag.flask { border-color: #000; }
+.tech-tag.docker { border-color: #2496ED; }
+
+.project-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #f7931e;
+    color: black;
+}
+
+.btn-secondary {
+    background: #333;
+    color: white;
+    border: 1px solid #555;
+}
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.tech-details {
+    margin-top: 20px;
+    padding: 20px;
+    background: #2a2a2a;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+.tech-section {
+    margin-bottom: 16px;
+}
+
+.tech-section h4 {
+    color: #f7931e;
+    margin: 0 0 8px 0;
+}
+
+.tech-section ul {
+    color: #ccc;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.tech-section li {
+    margin-bottom: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .project-preview {
+        grid-template-columns: 1fr;
+    }
+    
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-actions {
+        flex-direction: column;
+    }
+    
+    .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+</style>
+
+<!-- JavaScript -->
+<script>
+function showTechDetails() {
+    const details = document.getElementById('runescape-tech-details');
+    if (details.style.display === 'none') {
+        details.style.display = 'block';
+        event.target.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Details';
+    } else {
+        details.style.display = 'none';
+        event.target.innerHTML = '<i class="fas fa-info-circle"></i> Technical Details';
+    }
+}
+</script>

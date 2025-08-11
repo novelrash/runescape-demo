@@ -1,0 +1,412 @@
+/* Lite Leaderboards - Fixed Layout and Caching */
+
+.lite-leaderboards-section {
+    padding: 80px 0;
+    background: var(--bg-primary);
+    position: relative;
+    z-index: 1; /* Ensure it's above other sections */
+}
+
+.lite-leaderboards-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, rgba(255, 176, 0, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.section-header {
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.section-description {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Floating Card Base */
+.floating-card.leaderboard-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    position: relative;
+    z-index: 10; /* High z-index to ensure visibility */
+}
+
+.floating-card.leaderboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 176, 0, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 15; /* Even higher on hover */
+}
+
+/* Card Header */
+.floating-card .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 11;
+}
+
+.floating-card .card-header i {
+    color: var(--osrs-gold);
+    font-size: 1.25rem;
+    margin-right: 12px;
+}
+
+.floating-card .card-header span {
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Card Body */
+.floating-card .card-body {
+    padding: 0;
+    position: relative;
+    z-index: 11;
+    min-height: 300px; /* Ensure consistent height */
+}
+
+/* Loading and Error States */
+.loading-placeholder,
+.error-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.loading-placeholder i,
+.error-placeholder i {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: var(--osrs-gold);
+}
+
+.loading-placeholder i {
+    animation: spin 1s linear infinite;
+}
+
+.error-placeholder i {
+    color: #ef4444;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Leaderboard Items */
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 12;
+}
+
+.leaderboard-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    padding-left: 28px;
+}
+
+.leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+/* Rank Display */
+.leaderboard-item .rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.leaderboard-item:nth-child(1) .rank {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: var(--bg-primary);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+.leaderboard-item:nth-child(2) .rank {
+    background: linear-gradient(135deg, #c0c0c0 0%, #e5e5e5 100%);
+    color: var(--bg-primary);
+    box-shadow: 0 4px 12px rgba(192, 192, 192, 0.3);
+}
+
+.leaderboard-item:nth-child(3) .rank {
+    background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(205, 127, 50, 0.3);
+}
+
+.leaderboard-item:nth-child(n+4) .rank {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+/* Team Info */
+.team-info, .player-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.team-name, .player-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.2;
+}
+
+.team-points, .player-points {
+    font-size: 0.85rem;
+    color: var(--osrs-gold);
+    font-weight: 500;
+}
+
+/* Team Members / Player Team */
+.team-members, .player-team {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-align: right;
+    min-width: 80px;
+}
+
+.player-team {
+    color: var(--osrs-gold);
+    font-weight: 600;
+}
+
+/* Card Footer */
+.floating-card .card-footer {
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    z-index: 11;
+}
+
+.view-all-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.view-all-link:hover {
+    color: var(--osrs-gold);
+    background: rgba(255, 176, 0, 0.05);
+    border-color: rgba(255, 176, 0, 0.2);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.view-all-link i {
+    font-size: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+.view-all-link:hover i {
+    transform: translateX(2px);
+}
+
+/* Ensure How It Works section is below */
+.features-section {
+    position: relative;
+    z-index: 0; /* Lower z-index than leaderboards */
+    background: var(--bg-secondary);
+    padding: 80px 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991px) {
+    .lite-leaderboards-section {
+        padding: 60px 0;
+    }
+    
+    .floating-card.leaderboard-card {
+        margin-bottom: 24px;
+    }
+    
+    .floating-card .card-body {
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-card .card-header {
+        padding: 16px 20px;
+    }
+    
+    .floating-card .card-header span {
+        font-size: 1rem;
+    }
+    
+    .leaderboard-item {
+        padding: 14px 20px;
+    }
+    
+    .leaderboard-item .rank {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+        margin-right: 12px;
+    }
+    
+    .team-name, .player-name {
+        font-size: 0.9rem;
+    }
+    
+    .team-points, .player-points {
+        font-size: 0.8rem;
+    }
+    
+    .team-members, .player-team {
+        font-size: 0.75rem;
+        min-width: 70px;
+    }
+    
+    .floating-card .card-footer {
+        padding: 12px 20px;
+    }
+    
+    .loading-placeholder,
+    .error-placeholder {
+        padding: 40px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .leaderboard-item {
+        padding: 12px 16px;
+    }
+    
+    .team-members, .player-team {
+        display: none;
+    }
+    
+    .floating-card .card-header {
+        padding: 12px 16px;
+    }
+    
+    .floating-card .card-footer {
+        padding: 10px 16px;
+    }
+    
+    .floating-card .card-body {
+        min-height: 200px;
+    }
+}
+
+/* Animation for leaderboard items */
+.leaderboard-item {
+    animation: slideInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.leaderboard-item:nth-child(1) { animation-delay: 0.1s; }
+.leaderboard-item:nth-child(2) { animation-delay: 0.2s; }
+.leaderboard-item:nth-child(3) { animation-delay: 0.3s; }
+.leaderboard-item:nth-child(4) { animation-delay: 0.4s; }
+.leaderboard-item:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover effect for team/player names */
+.leaderboard-item:hover .team-name,
+.leaderboard-item:hover .player-name {
+    color: var(--osrs-gold);
+    transition: color 0.3s ease;
+}
+
+/* Cache status indicator */
+.cache-status {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.cache-status.fresh {
+    color: #10b981;
+}
+
+.cache-status.cached {
+    color: var(--osrs-gold);
+}

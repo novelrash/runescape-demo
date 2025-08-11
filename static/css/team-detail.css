@@ -1,0 +1,446 @@
+/* Team Detail Page Styles */
+
+.team-header-section {
+    padding: 120px 0 60px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-nav a:hover {
+    color: var(--osrs-gold);
+}
+
+.breadcrumb-nav i {
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+}
+
+.breadcrumb-nav span {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.team-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.team-rank {
+    background: var(--osrs-gold);
+    color: var(--bg-primary);
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.team-stats-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px 20px;
+    min-width: 140px;
+}
+
+.stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 176, 0, 0.1);
+    border-radius: 10px;
+}
+
+.stat-icon i {
+    color: var(--osrs-gold);
+    font-size: 1.1rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.team-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.team-content-section {
+    padding: 60px 0;
+    background: var(--bg-primary);
+}
+
+.content-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.content-card .card-header {
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-title i {
+    color: var(--osrs-gold);
+    font-size: 1.1rem;
+}
+
+.content-card .card-body {
+    padding: 24px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Member Detail Items */
+.member-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.member-detail-item:last-child {
+    border-bottom: none;
+}
+
+.member-detail-item.highlighted {
+    background: rgba(255, 176, 0, 0.1);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid rgba(255, 176, 0, 0.3);
+}
+
+.member-rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.member-detail-item:nth-child(1) .member-rank {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: var(--bg-primary);
+    border-color: #ffd700;
+}
+
+.member-detail-item:nth-child(2) .member-rank {
+    background: linear-gradient(135deg, #c0c0c0 0%, #e5e5e5 100%);
+    color: var(--bg-primary);
+    border-color: #c0c0c0;
+}
+
+.member-detail-item:nth-child(3) .member-rank {
+    background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+    color: white;
+    border-color: #cd7f32;
+}
+
+.member-info {
+    flex: 1;
+}
+
+.member-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.member-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.85rem;
+}
+
+.member-points {
+    color: var(--osrs-gold);
+    font-weight: 500;
+}
+
+.member-tiles {
+    color: var(--text-secondary);
+}
+
+.member-contribution {
+    text-align: right;
+    min-width: 80px;
+}
+
+.contribution-percentage {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.contribution-bar {
+    width: 60px;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-left: auto;
+}
+
+.contribution-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--osrs-gold) 0%, #ffed4e 100%);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+}
+
+/* Tile Completion Items */
+.tile-completion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tile-completion-item:last-child {
+    border-bottom: none;
+}
+
+.tile-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.tile-details {
+    display: flex;
+    gap: 12px;
+    font-size: 0.85rem;
+}
+
+.tile-points {
+    color: var(--osrs-gold);
+    font-weight: 500;
+}
+
+.tile-submitter {
+    color: var(--text-secondary);
+}
+
+.completion-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Performance Chart */
+.performance-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.performance-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.performance-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 200px;
+    flex-shrink: 0;
+}
+
+.performance-label .member-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.performance-label .member-score {
+    font-size: 0.9rem;
+    color: var(--osrs-gold);
+    font-weight: 500;
+}
+
+.performance-visual {
+    flex: 1;
+    height: 24px;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.performance-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--osrs-gold) 0%, #ffed4e 100%);
+    border-radius: 12px;
+    transition: width 0.8s ease;
+    min-width: 2px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.empty-state i {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .team-header-section {
+        padding: 100px 0 40px;
+    }
+    
+    .team-title {
+        font-size: 2rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .team-stats-row {
+        gap: 12px;
+    }
+    
+    .stat-card {
+        min-width: 120px;
+        padding: 12px 16px;
+    }
+    
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .team-actions {
+        justify-content: flex-start;
+        margin-top: 20px;
+    }
+    
+    .member-detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .member-contribution {
+        align-self: stretch;
+        text-align: left;
+    }
+    
+    .contribution-bar {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .performance-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .performance-label {
+        min-width: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .team-content-section {
+        padding: 40px 0;
+    }
+    
+    .content-card .card-header {
+        padding: 16px 20px;
+    }
+    
+    .content-card .card-body {
+        padding: 20px;
+    }
+    
+    .member-stats {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .tile-completion-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}

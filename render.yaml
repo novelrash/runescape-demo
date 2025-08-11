@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: runescape-competition-demo
+    env: docker
+    dockerfilePath: ./Dockerfile.demo
+    plan: free
+    region: oregon
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: DEMO_MODE
+        value: "true"
+    healthCheckPath: /api/stats
+    autoDeploy: true
+    disk:
+      name: demo-data
+      mountPath: /app/data
+      sizeGB: 1
