@@ -14,12 +14,15 @@ import random
 app = Flask(__name__)
 app.secret_key = 'demo-secret-key-change-in-production'
 
-# Demo configuration
-DATABASE = '/app/data/demo_leaderboard.db'
+# Demo configuration - Use writable directory
+DATABASE_DIR = os.environ.get('DATABASE_DIR', '/tmp')
+DATABASE = os.path.join(DATABASE_DIR, 'demo_leaderboard.db')
 DEMO_MODE = True
 
 def get_db_connection():
     """Get database connection"""
+    # Ensure directory exists
+    os.makedirs(os.path.dirname(DATABASE), exist_ok=True)
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
@@ -311,9 +314,6 @@ def about():
     return render_template('demo_about.html', demo_mode=DEMO_MODE)
 
 if __name__ == '__main__':
-    # Ensure data directory exists
-    os.makedirs('/app/data', exist_ok=True)
-    
     # Initialize demo database if it doesn't exist
     if not os.path.exists(DATABASE):
         print("🚀 Initializing demo database...")
