@@ -128,8 +128,8 @@
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+        <div class="container-fluid px-3">
+            <a class="navbar-brand d-flex align-items-center flex-shrink-0" href="{{ url_for('home') }}">
                 <div class="logo-container">
                     <i class="fas fa-trophy"></i>
                 </div>
@@ -137,12 +137,14 @@
                 <span class="status-badge">Demo Mode</span>
             </a>
             
+            <div class="flex-grow-1"></div>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">
                             <i class="fas fa-home me-1"></i>Home
@@ -150,17 +152,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('index') }}">
-                            <i class="fas fa-trophy me-1"></i>Leaderboard
+                            <i class="fas fa-trophy me-1"></i>Leaderboards
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('tiles') }}">
                             <i class="fas fa-th-large me-1"></i>Tiles
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('teams') }}">
-                            <i class="fas fa-users me-1"></i>Teams
                         </a>
                     </li>
                 </ul>
@@ -173,7 +170,7 @@
             <!-- Back Button -->
             <div class="mb-4">
                 <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
-                    <i class="fas fa-arrow-left me-2"></i>Back to Leaderboard
+                    <i class="fas fa-arrow-left me-2"></i>Back to Leaderboards
                 </a>
             </div>
 

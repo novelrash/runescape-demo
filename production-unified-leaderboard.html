@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Leaderboards - Pea Kingdom OSRS Bingo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/hybrid-style.css') }}" rel="stylesheet">
+    <style>
+        /* Navigation Styles */
+        .navbar {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary) !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-container {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .brand-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .status-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary) !important;
+            background: var(--bg-card);
+        }
+        
+        .navbar .me-3 {
+            flex-shrink: 0;
+        }
+        
+        /* Compact Team Bars */
+        .teams-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px;
+        }
+        
+        .team-row {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        
+        .team-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .team-row:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        
+        .team-rank {
+            flex-shrink: 0;
+        }
+        
+        .rank-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        
+        .team-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .team-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+        }
+        
+        .team-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .team-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .expand-btn, .detail-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .expand-btn:hover, .detail-btn:hover {
+            background: var(--bg-card);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        /* Team Members Dropdown Styling */
+        .team-members {
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            margin-top: 8px;
+        }
+        
+        .members-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 8px;
+            max-width: 100%;
+        }
+        
+        .member-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 60px;
+        }
+        
+        .member-item:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+        }
+        
+        .member-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: center;
+        }
+        
+        .member-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+        
+        .member-stats {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .member-stats .stat-item {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        .member-stats .stat-item i {
+            font-size: 0.7rem;
+        }
+        
+        /* Individual Leaderboard with Pagination */
+        .individuals-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px;
+        }
+        
+        .individual-row {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .individual-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .individual-row:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .individual-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .individual-rank {
+            flex-shrink: 0;
+        }
+        
+        .individual-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .individual-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+        }
+        
+        .individual-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .individual-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        /* Individual Leaderboard Styles */
+        .dual-leaderboards-section {
+            padding: 10px 0 40px 0;
+        }
+        
+        /* Fix page header positioning below nav bar */
+        .page-header {
+            padding-top: 120px;
+            padding-bottom: 5px;
+            background: var(--bg-primary);
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+        
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Better separation between leaderboards */
+        .dual-leaderboards-section .container-xl {
+            max-width: 1400px;
+        }
+        
+        .dual-leaderboards-section .col-lg-6:first-child {
+            padding-right: 2rem;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        
+        .dual-leaderboards-section .col-lg-6:last-child {
+            padding-left: 2rem;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        
+        /* Ensure both leaderboards start at same height */
+        .dual-leaderboards-section .leaderboard-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .dual-leaderboards-section .section-header {
+            flex-shrink: 0;
+            margin-bottom: 1.5rem !important;
+        }
+        
+        .dual-leaderboards-section .teams-container,
+        .dual-leaderboards-section .individuals-container {
+            flex: 1;
+            align-self: stretch;
+            width: 100%;
+            min-width: 0;
+            max-width: none;
+        }
+        
+        /* Top 3 styling for both leaderboards */
+        .individual-row[data-global-rank="1"],
+        .individual-row[data-global-rank="2"],
+        .individual-row[data-global-rank="3"],
+        .team-row:nth-child(1),
+        .team-row:nth-child(2),
+        .team-row:nth-child(3) {
+            margin-bottom: 16px;
+        }
+        
+        .individual-row[data-global-rank="1"] .individual-header,
+        .individual-row[data-global-rank="2"] .individual-header,
+        .individual-row[data-global-rank="3"] .individual-header,
+        .team-row:nth-child(1) .team-header,
+        .team-row:nth-child(2) .team-header,
+        .team-row:nth-child(3) .team-header {
+            padding: 16px 20px;
+        }
+        
+        /* Gold - 1st Place */
+        .individual-row[data-global-rank="1"],
+        .team-row:nth-child(1) {
+            background: var(--bg-card);
+            border: 2px solid var(--osrs-gold);
+            box-shadow: 0 4px 16px rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .individual-row[data-global-rank="1"]::before,
+        .team-row:nth-child(1)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+        }
+        
+        .individual-row[data-global-rank="1"] .rank-number,
+        .team-row:nth-child(1) .rank-number {
+            color: var(--osrs-gold);
+            font-size: 1.3rem;
+        }
+        
+        /* Silver - 2nd Place */
+        .individual-row[data-global-rank="2"],
+        .team-row:nth-child(2) {
+            background: var(--bg-card);
+            border: 2px solid #c0c0c0;
+            box-shadow: 0 4px 16px rgba(192, 192, 192, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .individual-row[data-global-rank="2"]::before,
+        .team-row:nth-child(2)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #c0c0c0, #e8e8e8);
+        }
+        
+        .individual-row[data-global-rank="2"] .rank-number,
+        .team-row:nth-child(2) .rank-number {
+            color: #c0c0c0;
+            font-size: 1.2rem;
+        }
+        
+        /* Bronze - 3rd Place */
+        .individual-row[data-global-rank="3"],
+        .team-row:nth-child(3) {
+            background: var(--bg-card);
+            border: 2px solid #cd7f32;
+            box-shadow: 0 4px 16px rgba(205, 127, 50, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .individual-row[data-global-rank="3"]::before,
+        .team-row:nth-child(3)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #cd7f32, #daa520);
+        }
+        
+        .individual-row[data-global-rank="3"] .rank-number,
+        .team-row:nth-child(3) .rank-number {
+            color: #cd7f32;
+            font-size: 1.1rem;
+        }
+        
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin: 0;
+        }
+        
+        /* Pagination Controls */
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+        
+        .pagination-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Navigation Timer Badge Styles */
+        .timer-badge {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%) !important;
+            animation: pulse 2s infinite;
+            color: white !important;
+        }
+        
+        .timer-badge * {
+            color: white !important;
+        }
+        
+        .live-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            color: white !important;
+        }
+        
+        .live-badge * {
+            color: white !important;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 991px) {
+            .dual-leaderboards-section .col-lg-6:first-child,
+            .dual-leaderboards-section .col-lg-6:last-child {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid px-3">
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center flex-shrink-0" href="{{ url_for('home') }}">
+                <div class="logo-container">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <span class="brand-text">Pea Kingdom</span>
+                {% if active_timer and not event_started %}
+                    <span class="status-badge timer-badge" id="navTimer">
+                        <i class="fas fa-clock me-1"></i>
+                        <span id="navTimerDisplay">Loading...</span>
+                    </span>
+                {% elif active_timer and event_started %}
+                    <span class="status-badge live-badge">
+                        <i class="fas fa-play-circle me-1"></i>
+                        {{ active_timer.event_name }}
+                    </span>
+                {% else %}
+                    <span class="status-badge">Live Competition</span>
+                {% endif %}
+            </a>
+            
+            <!-- Spacer to push navigation right -->
+            <div class="flex-grow-1"></div>
+            
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation Links - Far Right -->
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('root') }}">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('leaderboard') }}">
+                            <i class="fas fa-trophy"></i> Leaderboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tiles') }}">
+                            <i class="fas fa-th-large"></i> Tiles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pe-0" href="{{ url_for('admin_login') }}" title="Admin Dashboard">
+                            <i class="fas fa-lock"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="page-title">
+                        Competition
+                        <span class="gradient-text">Leaderboards</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dual Leaderboards Section -->
+    <section class="dual-leaderboards-section">
+        <div class="container-xl">
+            <div class="row">
+                <!-- Team Leaderboard -->
+                <div class="col-lg-6">
+                    <div class="leaderboard-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="fas fa-users me-2"></i>
+                                Team Leaderboard
+                            </h2>
+                            <p class="section-subtitle">Teams ranked by total points</p>
+                        </div>
+                        
+                        <div class="teams-container">
+                            {% for team in teams %}
+                            <div class="team-row" data-team-id="{{ team["id"] }}">
+                                <div class="team-header">
+                                    <div class="team-rank">
+                                        <span class="rank-number">#{{ loop.index }}</span>
+                                    </div>
+                                    
+                                    <div class="team-info">
+                                        <h3 class="team-name">{{ team["name"] }}</h3>
+                                        <div class="team-stats">
+                                            <span class="stat-item">
+                                                <i class="fas fa-trophy"></i>
+                                                {{ team["total_points"] }} points
+                                            </span>
+                                            <span class="stat-item">
+                                                <i class="fas fa-check-circle"></i>
+                                                {{ team["tiles_completed"] }} tiles
+                                            </span>
+                                            <span class="stat-item">
+                                                <i class="fas fa-users"></i>
+                                                {{ team["members"]|length }} members
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="team-actions">
+                                        <button class="expand-btn" onclick="toggleTeamMembers({{ team['id'] }})">
+                                            <i class="fas fa-chevron-down"></i>
+                                            <span>View Members</span>
+                                        </button>
+                                        <a href="{{ url_for('team_progress_by_name', team_name=team['name']) }}?from=leaderboard" class="detail-btn" onclick="event.stopPropagation()">
+                                            <i class="fas fa-external-link-alt"></i>
+                                            <span>Full Details</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <!-- Team Members (Initially Hidden) -->
+                                <div class="team-members" id="team-members-{{ team['id'] }}" style="display: none;">
+                                    <div class="members-list">
+                                        {% for member in team["members"] %}
+                                        <div class="member-item">
+                                            <div class="member-info">
+                                                <span class="member-name">{{ member["name"] }}</span>
+                                                <div class="member-stats">
+                                                    <span class="stat-item">
+                                                        <i class="fas fa-trophy"></i>
+                                                        {{ member["total_points"] }} pts
+                                                    </span>
+                                                    <span class="stat-item">
+                                                        <i class="fas fa-check-circle"></i>
+                                                        {{ member["tiles_completed"] }} tiles
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Individual Leaderboard -->
+                <div class="col-lg-6">
+                    <div class="leaderboard-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="fas fa-user me-2"></i>
+                                Individual Leaderboard
+                            </h2>
+                            <p class="section-subtitle">Players ranked by total points</p>
+                        </div>
+                        
+                        <div class="individuals-container">
+                            <div id="individuals-list">
+                                {% for player in individual_stats[:15] %}
+                                <div class="individual-row" data-index="{{ loop.index0 }}" data-global-rank="{{ loop.index }}">
+                                    <div class="individual-header">
+                                        <div class="individual-rank">
+                                            <span class="rank-number">#{{ loop.index }}</span>
+                                        </div>
+                                        
+                                        <div class="individual-info">
+                                            <h3 class="individual-name">{{ player["name"] }}</h3>
+                                            <div class="individual-stats">
+                                                <span class="stat-item">
+                                                    <i class="fas fa-trophy"></i>
+                                                    {{ player["total_points"] }} points
+                                                </span>
+                                                <span class="stat-item">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    {{ player["tiles_completed"] }} tiles
+                                                </span>
+                                                <span class="stat-item">
+                                                    <i class="fas fa-users"></i>
+                                                    {{ player["team_name"] }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="individual-actions">
+                                            <a href="{{ url_for('team_progress_by_name', team_name=player['team_name']) }}?from=leaderboard" class="detail-btn">
+                                                <i class="fas fa-external-link-alt"></i>
+                                                <span>View Progress</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <!-- Pagination Controls -->
+                            <div class="pagination-controls">
+                                <button class="pagination-btn" id="prev-btn" onclick="changePage(-1)">
+                                    <i class="fas fa-chevron-left"></i>
+                                    Previous
+                                </button>
+                                <span class="pagination-info" id="page-info">Page 1 of {{ (individual_stats|length / 15)|round(0, 'ceil')|int }}</span>
+                                <button class="pagination-btn" id="next-btn" onclick="changePage(1)">
+                                    Next
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Team expansion functionality
+        function toggleTeamMembers(teamId) {
+            const membersDiv = document.getElementById(`team-members-${teamId}`);
+            const expandBtn = document.querySelector(`[data-team-id="${teamId}"] .expand-btn`);
+            const icon = expandBtn.querySelector('i');
+            
+            if (membersDiv.style.display === 'none' || membersDiv.style.display === '') {
+                membersDiv.style.display = 'block';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+                expandBtn.querySelector('span').textContent = 'Hide Members';
+            } else {
+                membersDiv.style.display = 'none';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+                expandBtn.querySelector('span').textContent = 'View Members';
+            }
+        }
+
+        // Individual leaderboard pagination
+        const individualStats = {{ individual_stats|tojson }};
+        const itemsPerPage = 15;
+        let currentPage = 1;
+        const totalPages = Math.ceil(individualStats.length / itemsPerPage);
+
+        function updatePagination() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const pageInfo = document.getElementById('page-info');
+            
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+        }
+
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                renderIndividuals();
+                updatePagination();
+            }
+        }
+
+        function renderIndividuals() {
+            const individualsList = document.getElementById('individuals-list');
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const playersToShow = individualStats.slice(startIndex, endIndex);
+            
+            individualsList.innerHTML = '';
+            
+            playersToShow.forEach((player, index) => {
+                const globalRank = startIndex + index + 1;
+                const globalIndex = startIndex + index;
+                const playerRow = `
+                    <div class="individual-row" data-index="${index}" data-global-rank="${globalRank}">
+                        <div class="individual-header">
+                            <div class="individual-rank">
+                                <span class="rank-number">#${globalRank}</span>
+                            </div>
+                            
+                            <div class="individual-info">
+                                <h3 class="individual-name">${player.name}</h3>
+                                <div class="individual-stats">
+                                    <span class="stat-item">
+                                        <i class="fas fa-trophy"></i>
+                                        ${player.total_points} points
+                                    </span>
+                                    <span class="stat-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        ${player.tiles_completed} tiles
+                                    </span>
+                                    <span class="stat-item">
+                                        <i class="fas fa-users"></i>
+                                        ${player.team_name}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="individual-actions">
+                                <a href="/team/${player.team_name}?from=leaderboard" class="detail-btn">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>View Progress</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                individualsList.innerHTML += playerRow;
+            });
+        }
+
+        // Initialize pagination
+        updatePagination();
+        
+        // Navigation Timer Functionality
+        {% if active_timer and not event_started %}
+        function updateNavTimer() {
+            const eventStartTime = new Date('{{ active_timer.start_time.strftime("%Y-%m-%dT%H:%M:%S") }}Z').getTime();
+            const now = new Date().getTime();
+            const timeLeft = eventStartTime - now;
+            
+            if (timeLeft <= 0) {
+                // Event has started, reload the page to update the UI
+                location.reload();
+                return;
+            }
+            
+            // Calculate time units
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            // Format display based on time remaining
+            let display = '';
+            if (days > 0) {
+                display = `${days}d ${hours}h ${minutes}m`;
+            } else if (hours > 0) {
+                display = `${hours}h ${minutes}m ${seconds}s`;
+            } else if (minutes > 0) {
+                display = `${minutes}m ${seconds}s`;
+            } else {
+                display = `${seconds}s`;
+            }
+            
+            const navTimerDisplay = document.getElementById('navTimerDisplay');
+            if (navTimerDisplay) {
+                navTimerDisplay.textContent = display;
+            }
+        }
+        
+        // Start navigation timer
+        updateNavTimer();
+        const navTimerInterval = setInterval(updateNavTimer, 1000);
+        
+        // Clean up interval when page is unloaded
+        window.addEventListener('beforeunload', function() {
+            clearInterval(navTimerInterval);
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

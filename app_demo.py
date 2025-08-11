@@ -168,7 +168,7 @@ def home():
 
 @app.route('/leaderboard')
 def index():
-    """Main leaderboard page"""
+    """Dual leaderboard page - teams and individuals side by side"""
     # Ensure database is initialized
     if not check_database_initialized():
         print("🚀 Initializing demo database...")
@@ -201,7 +201,6 @@ def index():
         LEFT JOIN tiles ON comp.tile_id = tiles.id
         GROUP BY c.id, c.rsn, t.name
         ORDER BY total_points DESC, completions_count DESC
-        LIMIT 15
     ''').fetchall()
     
     # Get recent completions
@@ -248,34 +247,6 @@ def tiles():
     conn.close()
     
     return render_template('demo_tiles.html', tiles=tiles, demo_mode=DEMO_MODE)
-
-@app.route('/teams')
-def teams():
-    """Teams overview page"""
-    # Ensure database is initialized
-    if not check_database_initialized():
-        print("🚀 Initializing demo database...")
-        init_demo_db()
-    
-    conn = get_db_connection()
-    
-    teams_data = conn.execute('''
-        SELECT t.name, t.id,
-               COUNT(DISTINCT c.id) as member_count,
-               COALESCE(SUM(tiles.points), 0) as total_points,
-               COUNT(DISTINCT comp.id) as total_completions,
-               GROUP_CONCAT(c.rsn) as members
-        FROM teams t
-        LEFT JOIN competitors c ON t.id = c.team_id
-        LEFT JOIN completions comp ON c.id = comp.competitor_id
-        LEFT JOIN tiles ON comp.tile_id = tiles.id
-        GROUP BY t.id, t.name
-        ORDER BY total_points DESC
-    ''').fetchall()
-    
-    conn.close()
-    
-    return render_template('demo_teams.html', teams=teams_data, demo_mode=DEMO_MODE)
 
 @app.route('/competitor/<rsn>')
 def competitor_detail(rsn):

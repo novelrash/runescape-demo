@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - RuneScape Competition Demo</title>
+    <title>Competition Leaderboards - RuneScape Competition Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/hybrid-style.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/hero-leaderboards.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/leaderboard-layout.css') }}" rel="stylesheet">
     <style>
         /* Demo-specific banner */
         .demo-banner {
@@ -34,25 +32,288 @@
             top: 45px;
         }
         
-        body {
-            padding-top: 100px; /* Account for demo banner + navbar */
+        /* Main content padding */
+        .main-content {
+            padding-top: 145px;
+            min-height: 100vh;
         }
         
-        /* Demo-specific adjustments */
-        .hero-section {
-            margin-top: 20px;
+        /* Page header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
         }
+        
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Compact Team Bars */
+        .teams-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px;
+        }
+        
+        .team-row {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        
+        .team-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .team-row:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        
+        .team-rank {
+            flex-shrink: 0;
+        }
+        
+        .rank-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        
+        .team-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .team-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+        }
+        
+        .team-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .team-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .expand-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .expand-btn:hover {
+            background: var(--bg-card);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+        
+        /* Team Members Dropdown Styling */
+        .team-members {
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            display: none;
+        }
+        
+        .team-members.show {
+            display: block;
+        }
+        
+        .members-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            max-width: 100%;
+        }
+        
+        .member-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 60px;
+            cursor: pointer;
+        }
+        
+        .member-item:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+        }
+        
+        .member-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: center;
+        }
+        
+        .member-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+        
+        .member-stats {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .member-stats .stat-item {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        /* Individual Leaderboard */
+        .individuals-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px;
+        }
+        
+        .individual-row {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .individual-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .individual-row:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .individual-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        
+        .individual-rank {
+            flex-shrink: 0;
+        }
+        
+        .individual-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .individual-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+        }
+        
+        .individual-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        /* Section headers */
+        .section-header {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Rank styling */
+        .rank-1 { color: #ffd700; }
+        .rank-2 { color: #c0c0c0; }
+        .rank-3 { color: #cd7f32; }
     </style>
 </head>
 <body>
     <div class="demo-banner">
-        🎮 INTERACTIVE DEMO - Real-time Competition Leaderboards 🎮
+        🎮 INTERACTIVE DEMO - Dual Leaderboard System 🎮
     </div>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+        <div class="container-fluid px-3">
+            <a class="navbar-brand d-flex align-items-center flex-shrink-0" href="{{ url_for('home') }}">
                 <div class="logo-container">
                     <i class="fas fa-trophy"></i>
                 </div>
@@ -60,12 +321,14 @@
                 <span class="status-badge">Demo Mode</span>
             </a>
             
+            <div class="flex-grow-1"></div>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">
                             <i class="fas fa-home me-1"></i>Home
@@ -73,7 +336,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ url_for('index') }}">
-                            <i class="fas fa-trophy me-1"></i>Leaderboard
+                            <i class="fas fa-trophy me-1"></i>Leaderboards
                         </a>
                     </li>
                     <li class="nav-item">
@@ -81,233 +344,178 @@
                             <i class="fas fa-th-large me-1"></i>Tiles
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('teams') }}">
-                            <i class="fas fa-users me-1"></i>Teams
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="hero-content text-center">
-                        <h1 class="hero-title">
-                            <i class="fas fa-trophy text-warning me-3"></i>
-                            Competition Leaderboards
-                        </h1>
-                        <p class="hero-subtitle">Track team progress and individual achievements in real-time</p>
-                    </div>
-                </div>
+    <div class="main-content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Competition Leaderboards</h1>
+                <p class="page-subtitle">Track team progress and individual achievements in real-time</p>
             </div>
-        </div>
-    </div>
 
-    <!-- Stats Overview -->
-    <div class="container mb-5">
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
+            <!-- Dual Leaderboard Layout -->
+            <div class="row g-4">
+                <!-- Team Leaderboard -->
+                <div class="col-lg-6">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-users text-primary"></i>
+                            Team Standings
+                        </h2>
+                        <p class="section-subtitle">Current team rankings and member progress</p>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ team_standings|length }}</div>
-                        <div class="stat-label">Active Teams</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ individual_standings|length }}</div>
-                        <div class="stat-label">Top Competitors</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ recent_completions|length }}</div>
-                        <div class="stat-label">Recent Completions</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ team_standings|sum(attribute='total_points') }}</div>
-                        <div class="stat-label">Total Points</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Team Leaderboard -->
-    <div class="container mb-5">
-        <div class="leaderboard-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-trophy text-warning me-2"></i>
-                    Team Championship
-                </h2>
-                <p class="section-subtitle">Current team standings and performance metrics</p>
-            </div>
-            
-            <div class="table-responsive">
-                <table class="table leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-medal me-1"></i>Rank</th>
-                            <th><i class="fas fa-users me-1"></i>Team</th>
-                            <th><i class="fas fa-user-friends me-1"></i>Members</th>
-                            <th><i class="fas fa-coins me-1"></i>Points</th>
-                            <th><i class="fas fa-check-circle me-1"></i>Completions</th>
-                            <th><i class="fas fa-chart-line me-1"></i>Avg/Member</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    
+                    <div class="teams-container">
                         {% for team in team_standings %}
-                        <tr class="leaderboard-row">
-                            <td class="rank-cell">
-                                <div class="rank-badge rank-{{ loop.index }}">
-                                    {% if loop.index == 1 %}<i class="fas fa-crown text-warning"></i>
-                                    {% elif loop.index == 2 %}<i class="fas fa-medal text-secondary"></i>
-                                    {% elif loop.index == 3 %}<i class="fas fa-medal text-warning"></i>
-                                    {% else %}<span class="rank-number">{{ loop.index }}</span>{% endif %}
+                        <div class="team-row">
+                            <div class="team-header" onclick="toggleTeamMembers({{ loop.index }})">
+                                <div class="team-rank">
+                                    <span class="rank-number rank-{{ loop.index }}">
+                                        {% if loop.index == 1 %}🥇
+                                        {% elif loop.index == 2 %}🥈
+                                        {% elif loop.index == 3 %}🥉
+                                        {% else %}{{ loop.index }}{% endif %}
+                                    </span>
                                 </div>
-                            </td>
-                            <td class="team-cell">
                                 <div class="team-info">
                                     <div class="team-name">{{ team.team_name }}</div>
+                                    <div class="team-stats">
+                                        <div class="stat-item">
+                                            <i class="fas fa-users"></i>
+                                            {{ team.member_count }} members
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-coins"></i>
+                                            {{ team.total_points }} points
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-check-circle"></i>
+                                            {{ team.total_completions }} completions
+                                        </div>
+                                    </div>
                                 </div>
-                            </td>
-                            <td class="members-cell">{{ team.member_count }}</td>
-                            <td class="points-cell">
-                                <span class="points-value">{{ team.total_points }}</span>
-                            </td>
-                            <td class="completions-cell">{{ team.total_completions }}</td>
-                            <td class="avg-cell">{{ (team.total_points / team.member_count)|round(1) if team.member_count > 0 else 0 }}</td>
-                        </tr>
+                                <div class="team-actions">
+                                    <button class="expand-btn">
+                                        <i class="fas fa-chevron-down"></i>
+                                        Members
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="team-members" id="team-members-{{ loop.index }}">
+                                <div class="members-list">
+                                    {% set members = individual_standings|selectattr('team_name', 'equalto', team.team_name)|list %}
+                                    {% for member in members %}
+                                    <div class="member-item" onclick="window.location.href='{{ url_for('competitor_detail', rsn=member.rsn) }}'">
+                                        <div class="member-info">
+                                            <div class="member-name">{{ member.rsn }}</div>
+                                            <div class="member-stats">
+                                                <div class="stat-item">
+                                                    <i class="fas fa-coins"></i>
+                                                    {{ member.total_points }}
+                                                </div>
+                                                <div class="stat-item">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    {{ member.completions_count }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
                         {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                    </div>
+                </div>
 
-    <!-- Individual Leaderboard -->
-    <div class="container mb-5">
-        <div class="leaderboard-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-user text-primary me-2"></i>
-                    Individual Champions
-                </h2>
-                <p class="section-subtitle">Top performing individual competitors</p>
-            </div>
-            
-            <div class="table-responsive">
-                <table class="table leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-medal me-1"></i>Rank</th>
-                            <th><i class="fas fa-user me-1"></i>Player</th>
-                            <th><i class="fas fa-users me-1"></i>Team</th>
-                            <th><i class="fas fa-coins me-1"></i>Points</th>
-                            <th><i class="fas fa-check-circle me-1"></i>Completions</th>
-                            <th><i class="fas fa-chart-line me-1"></i>Avg Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <!-- Individual Leaderboard -->
+                <div class="col-lg-6">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-user text-warning"></i>
+                            Individual Champions
+                        </h2>
+                        <p class="section-subtitle">Top performing individual competitors</p>
+                    </div>
+                    
+                    <div class="individuals-container">
                         {% for player in individual_standings %}
-                        <tr class="leaderboard-row">
-                            <td class="rank-cell">
-                                <div class="rank-badge rank-{{ loop.index }}">
-                                    {% if loop.index == 1 %}<i class="fas fa-crown text-warning"></i>
-                                    {% elif loop.index == 2 %}<i class="fas fa-medal text-secondary"></i>
-                                    {% elif loop.index == 3 %}<i class="fas fa-medal text-warning"></i>
-                                    {% else %}<span class="rank-number">{{ loop.index }}</span>{% endif %}
+                        <div class="individual-row">
+                            <div class="individual-header" onclick="window.location.href='{{ url_for('competitor_detail', rsn=player.rsn) }}'">
+                                <div class="individual-rank">
+                                    <span class="rank-number rank-{{ loop.index }}">
+                                        {% if loop.index == 1 %}🥇
+                                        {% elif loop.index == 2 %}🥈
+                                        {% elif loop.index == 3 %}🥉
+                                        {% else %}{{ loop.index }}{% endif %}
+                                    </span>
                                 </div>
-                            </td>
-                            <td class="player-cell">
-                                <a href="{{ url_for('competitor_detail', rsn=player.rsn) }}" class="player-link">
-                                    <div class="player-info">
-                                        <div class="player-name">{{ player.rsn }}</div>
+                                <div class="individual-info">
+                                    <div class="individual-name">{{ player.rsn }}</div>
+                                    <div class="individual-stats">
+                                        <div class="stat-item">
+                                            <i class="fas fa-users"></i>
+                                            {{ player.team_name }}
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-coins"></i>
+                                            {{ player.total_points }} points
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-check-circle"></i>
+                                            {{ player.completions_count }} completions
+                                        </div>
                                     </div>
-                                </a>
-                            </td>
-                            <td class="team-cell">{{ player.team_name }}</td>
-                            <td class="points-cell">
-                                <span class="points-value">{{ player.total_points }}</span>
-                            </td>
-                            <td class="completions-cell">{{ player.completions_count }}</td>
-                            <td class="avg-cell">{{ (player.total_points / player.completions_count)|round(1) if player.completions_count > 0 else 0 }}</td>
-                        </tr>
+                                </div>
+                            </div>
+                        </div>
                         {% endfor %}
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Recent Activity -->
-    <div class="container mb-5">
-        <div class="leaderboard-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-clock text-success me-2"></i>
-                    Recent Activity
-                </h2>
-                <p class="section-subtitle">Latest achievement completions</p>
-            </div>
-            
-            <div class="table-responsive">
-                <table class="table leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-user me-1"></i>Player</th>
-                            <th><i class="fas fa-users me-1"></i>Team</th>
-                            <th><i class="fas fa-target me-1"></i>Achievement</th>
-                            <th><i class="fas fa-coins me-1"></i>Points</th>
-                            <th><i class="fas fa-clock me-1"></i>Completed</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <!-- Recent Activity Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-clock text-success"></i>
+                            Recent Activity
+                        </h2>
+                        <p class="section-subtitle">Latest achievement completions</p>
+                    </div>
+                    
+                    <div class="individuals-container">
                         {% for completion in recent_completions %}
-                        <tr class="leaderboard-row">
-                            <td class="player-cell">
-                                <a href="{{ url_for('competitor_detail', rsn=completion.rsn) }}" class="player-link">
-                                    <div class="player-info">
-                                        <div class="player-name">{{ completion.rsn }}</div>
+                        <div class="individual-row">
+                            <div class="individual-header">
+                                <div class="individual-info">
+                                    <div class="individual-name">{{ completion.rsn }} completed {{ completion.tile_name }}</div>
+                                    <div class="individual-stats">
+                                        <div class="stat-item">
+                                            <i class="fas fa-users"></i>
+                                            {{ completion.team_name }}
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-coins"></i>
+                                            +{{ completion.points }} points
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-clock"></i>
+                                            {{ completion.completed_at[:16].replace('T', ' ') }}
+                                        </div>
                                     </div>
-                                </a>
-                            </td>
-                            <td class="team-cell">{{ completion.team_name }}</td>
-                            <td class="achievement-cell">{{ completion.tile_name }}</td>
-                            <td class="points-cell">
-                                <span class="points-value text-success">+{{ completion.points }}</span>
-                            </td>
-                            <td class="time-cell">{{ completion.completed_at[:16].replace('T', ' ') }}</td>
-                        </tr>
+                                </div>
+                            </div>
+                        </div>
                         {% endfor %}
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -315,5 +523,25 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/hybrid-app.js') }}"></script>
+    <script>
+        function toggleTeamMembers(teamIndex) {
+            const membersDiv = document.getElementById(`team-members-${teamIndex}`);
+            const expandBtn = membersDiv.previousElementSibling.querySelector('.expand-btn i');
+            
+            if (membersDiv.classList.contains('show')) {
+                membersDiv.classList.remove('show');
+                expandBtn.className = 'fas fa-chevron-down';
+            } else {
+                // Close all other team members
+                document.querySelectorAll('.team-members.show').forEach(div => {
+                    div.classList.remove('show');
+                    div.previousElementSibling.querySelector('.expand-btn i').className = 'fas fa-chevron-down';
+                });
+                
+                membersDiv.classList.add('show');
+                expandBtn.className = 'fas fa-chevron-up';
+            }
+        }
+    </script>
 </body>
 </html>
