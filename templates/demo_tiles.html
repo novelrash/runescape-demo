@@ -48,6 +48,7 @@
             font-weight: 700;
             margin-bottom: 16px;
             letter-spacing: -0.02em;
+            color: var(--text-primary);
         }
         
         .page-subtitle {
@@ -129,6 +130,7 @@
         .difficulty-btn.easy.active {
             background: #10b981;
             border-color: #10b981;
+            color: white;
         }
         
         .difficulty-btn.medium {
@@ -138,6 +140,7 @@
         .difficulty-btn.medium.active {
             background: #3b82f6;
             border-color: #3b82f6;
+            color: white;
         }
         
         .difficulty-btn.hard {
@@ -147,6 +150,7 @@
         .difficulty-btn.hard.active {
             background: #ef4444;
             border-color: #ef4444;
+            color: white;
         }
         
         .difficulty-btn.extreme {
@@ -173,7 +177,7 @@
             margin-bottom: 60px;
         }
         
-        /* Tile card matching team progress completed tiles layout */
+        /* Tile card matching production exactly - NO DESCRIPTIONS */
         .tile-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -181,6 +185,8 @@
             padding: 16px;
             transition: all 0.3s ease;
             position: relative;
+            height: auto;
+            min-height: 80px;
         }
         
         .tile-card:hover {
@@ -264,7 +270,7 @@
         .tile-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 8px;
         }
         
@@ -274,6 +280,7 @@
             flex: 1;
             margin-right: 12px;
             font-size: 1.1rem;
+            line-height: 1.3;
         }
         
         .tile-points-button {
@@ -290,6 +297,7 @@
             display: flex;
             align-items: center;
             gap: 2px;
+            flex-shrink: 0;
         }
         
         .tile-points-button:hover {
@@ -298,19 +306,13 @@
             box-shadow: 0 2px 8px rgba(255, 176, 0, 0.3);
         }
         
-        .tile-description {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.4;
-            margin-bottom: 12px;
-        }
-        
         .tile-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.85rem;
             color: var(--text-secondary);
+            margin-top: 8px;
         }
         
         .tile-completions {
@@ -341,7 +343,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid px-3">
-            <a class="navbar-brand d-flex align-items-center flex-shrink-0" href="{{ url_for('index') }}">
+            <a class="navbar-brand d-flex align-items-center flex-shrink-0" href="{{ url_for('home') }}">
                 <div class="logo-container">
                     <i class="fas fa-trophy"></i>
                 </div>
@@ -358,8 +360,13 @@
             <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('index') }}">
-                            <i class="fas fa-home me-1"></i>Leaderboard
+                            <i class="fas fa-trophy me-1"></i>Leaderboard
                         </a>
                     </li>
                     <li class="nav-item">
@@ -370,11 +377,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('teams') }}">
                             <i class="fas fa-users me-1"></i>Teams
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">
-                            <i class="fas fa-info-circle me-1"></i>About
                         </a>
                     </li>
                 </ul>
@@ -428,24 +430,12 @@
                             </button>
                         </div>
                         
-                        <div class="tile-description">
-                            {{ tile.description }}
-                        </div>
-                        
                         <div class="tile-meta">
                             <div class="tile-completions">
                                 <i class="fas fa-check-circle me-1"></i>
                                 <span>{{ tile.completion_count }} completion{{ 's' if tile.completion_count != 1 else '' }}</span>
                             </div>
                         </div>
-                        
-                        {% if tile.completed_by %}
-                        <div class="tile-completed-by mt-2">
-                            <small class="text-muted">
-                                Completed by: {{ tile.completed_by[:30] }}{% if tile.completed_by|length > 30 %}...{% endif %}
-                            </small>
-                        </div>
-                        {% endif %}
                     </div>
                     {% endfor %}
                 </div>

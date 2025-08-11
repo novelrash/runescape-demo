@@ -162,6 +162,11 @@ def init_demo_db():
     print("✅ Demo database initialized with sample data!")
 
 @app.route('/')
+def home():
+    """Home landing page"""
+    return render_template('home.html', demo_mode=DEMO_MODE)
+
+@app.route('/leaderboard')
 def index():
     """Main leaderboard page"""
     # Ensure database is initialized
@@ -343,11 +348,6 @@ def api_stats():
     
     conn.close()
     return jsonify(stats)
-
-@app.route('/about')
-def about():
-    """About page explaining the demo"""
-    return render_template('demo_about.html', demo_mode=DEMO_MODE)
 
 if __name__ == '__main__':
     # Ensure database is initialized

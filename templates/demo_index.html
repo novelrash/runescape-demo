@@ -3,19 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RuneScape Competition - Demo Leaderboard</title>
+    <title>Leaderboard - RuneScape Competition Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/hybrid-style.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/hero-leaderboards.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/leaderboard-layout.css') }}" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <meta name="description" content="Interactive demo of RuneScape Competition Management System - Flask, Python, Docker">
-    <meta name="keywords" content="Flask, Python, Competition Management, Leaderboard, Docker, Portfolio">
-    <meta property="og:title" content="RuneScape Competition Demo">
-    <meta property="og:description" content="Full-stack competition management system with team leaderboards">
-    <meta property="og:image" content="{{ url_for('static', filename='runescape.jpg') }}">
     <style>
         /* Demo-specific banner */
         .demo-banner {
@@ -28,8 +22,11 @@
             border-bottom: 3px solid rgba(255, 255, 255, 0.2);
             font-size: 0.95rem;
             letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1001;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
         }
         
         /* Adjust navbar for demo banner */
@@ -48,42 +45,45 @@
     </style>
 </head>
 <body>
-    {% if demo_mode %}
     <div class="demo-banner">
-        🎮 INTERACTIVE DEMO - Showcasing RuneScape Competition Features with Sample Data 🎮
+        🎮 INTERACTIVE DEMO - Real-time Competition Leaderboards 🎮
     </div>
-    {% endif %}
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-trophy me-2"></i>
-                RuneScape Competition
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+                <div class="logo-container">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <span class="brand-text">RuneScape Competition</span>
+                <span class="status-badge">Demo Mode</span>
             </a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" href="{{ url_for('index') }}">
-                            <i class="fas fa-home me-1"></i>Leaderboard
+                            <i class="fas fa-trophy me-1"></i>Leaderboard
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('tiles') }}">
-                            <i class="fas fa-target me-1"></i>Achievements
+                            <i class="fas fa-th-large me-1"></i>Tiles
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('teams') }}">
                             <i class="fas fa-users me-1"></i>Teams
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">
-                            <i class="fas fa-info-circle me-1"></i>About Demo
                         </a>
                     </li>
                 </ul>

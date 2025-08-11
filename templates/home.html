@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RuneScape Competition Demo - Team Competition Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/hybrid-style.css') }}" rel="stylesheet">
+    <style>
+        /* Demo-specific banner */
+        .demo-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 0;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
+        }
+        
+        /* Adjust navbar for demo banner */
+        .navbar {
+            top: 45px;
+        }
+        
+        /* Additional styles for home page */
+        .hero-section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 165px 0 80px;
+        }
+        
+        .hero-content {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 48px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Perfectly Centered Statistics Section */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 48px;
+            padding: 0 20px;
+        }
+        
+        .hero-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .hero-stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-stat-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+        
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+            font-family: var(--font-mono);
+        }
+        
+        .hero-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 80px;
+        }
+        
+        .hero-btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .hero-btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+        }
+        
+        .hero-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 109, 109, 0.3);
+            color: white;
+        }
+        
+        .hero-btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .hero-btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            color: var(--text-primary);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+        
+        .feature-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* Tech Stack Section */
+        .tech-section {
+            padding: 80px 0;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+        
+        .tech-category {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        
+        .tech-category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tech-badge {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🎮 INTERACTIVE DEMO - Full-Stack Competition Management Platform 🎮
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid px-3">
+            <a class="navbar-brand d-flex align-items-center flex-shrink-0" href="{{ url_for('home') }}">
+                <div class="logo-container">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <span class="brand-text">RuneScape Competition</span>
+                <span class="status-badge">Demo Mode</span>
+            </a>
+            
+            <div class="flex-grow-1"></div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('home') }}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">
+                            <i class="fas fa-trophy me-1"></i>Leaderboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tiles') }}">
+                            <i class="fas fa-th-large me-1"></i>Tiles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('teams') }}">
+                            <i class="fas fa-users me-1"></i>Teams
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">RuneScape Competition Platform</h1>
+                <p class="hero-subtitle">
+                    Interactive demo showcasing a full-stack team competition management system with real-time leaderboards, achievement tracking, and comprehensive analytics.
+                </p>
+                
+                <!-- Statistics -->
+                <div class="hero-stats">
+                    <div class="hero-stats-grid">
+                        <div class="hero-stat-card">
+                            <div class="hero-stat-number">6</div>
+                            <div class="hero-stat-label">Competing Teams</div>
+                        </div>
+                        <div class="hero-stat-card">
+                            <div class="hero-stat-number">18</div>
+                            <div class="hero-stat-label">Sample Players</div>
+                        </div>
+                        <div class="hero-stat-card">
+                            <div class="hero-stat-number">20</div>
+                            <div class="hero-stat-label">Achievements</div>
+                        </div>
+                        <div class="hero-stat-card">
+                            <div class="hero-stat-number">4</div>
+                            <div class="hero-stat-label">Difficulty Tiers</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="hero-actions">
+                    <a href="{{ url_for('index') }}" class="hero-btn hero-btn-primary">
+                        <i class="fas fa-trophy"></i>
+                        View Leaderboards
+                    </a>
+                    <a href="{{ url_for('tiles') }}" class="hero-btn hero-btn-secondary">
+                        <i class="fas fa-th-large"></i>
+                        Explore Achievements
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Platform Features</h2>
+                <p class="section-subtitle">
+                    Comprehensive competition management with modern web technologies
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="feature-title">Team Competition</h3>
+                    <p class="feature-description">
+                        Teams compete for the highest total points through collaborative achievement completion. Real-time team standings and member contributions.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="feature-title">Individual Tracking</h3>
+                    <p class="feature-description">
+                        Individual player progress with detailed completion history, personal statistics, and achievement breakdowns across difficulty levels.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-target"></i>
+                    </div>
+                    <h3 class="feature-title">Achievement System</h3>
+                    <p class="feature-description">
+                        Comprehensive achievement system with colored difficulty borders, point values, and completion tracking across four challenge tiers.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Real-time Updates</h3>
+                    <p class="feature-description">
+                        Live completion feed showing recent achievements, points earned, and team progress updates with instant leaderboard refreshes.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Advanced Analytics</h3>
+                    <p class="feature-description">
+                        Detailed statistics, progress tracking, and performance metrics for teams and individuals with comprehensive reporting.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Responsive Design</h3>
+                    <p class="feature-description">
+                        Fully responsive interface that works perfectly on desktop, tablet, and mobile devices with optimized user experience.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Stack Section -->
+    <div class="tech-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Technology Stack</h2>
+                <p class="section-subtitle">
+                    Built with modern web technologies and best practices
+                </p>
+            </div>
+            
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h4 class="tech-category-title">Backend</h4>
+                    <div class="tech-badges">
+                        <span class="tech-badge">Python Flask</span>
+                        <span class="tech-badge">SQLite Database</span>
+                        <span class="tech-badge">SQLAlchemy ORM</span>
+                        <span class="tech-badge">Gunicorn WSGI</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h4 class="tech-category-title">Frontend</h4>
+                    <div class="tech-badges">
+                        <span class="tech-badge">Bootstrap 5</span>
+                        <span class="tech-badge">Font Awesome</span>
+                        <span class="tech-badge">Responsive CSS</span>
+                        <span class="tech-badge">JavaScript</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h4 class="tech-category-title">Deployment</h4>
+                    <div class="tech-badges">
+                        <span class="tech-badge">Docker Container</span>
+                        <span class="tech-badge">Render.com</span>
+                        <span class="tech-badge">Health Checks</span>
+                        <span class="tech-badge">CI/CD Pipeline</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h4 class="tech-category-title">Development</h4>
+                    <div class="tech-badges">
+                        <span class="tech-badge">Git Version Control</span>
+                        <span class="tech-badge">Production Assets</span>
+                        <span class="tech-badge">Containerization</span>
+                        <span class="tech-badge">Modern DevOps</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/hybrid-app.js') }}"></script>
+</body>
+</html>

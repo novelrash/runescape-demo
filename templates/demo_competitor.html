@@ -129,7 +129,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
                 <div class="logo-container">
                     <i class="fas fa-trophy"></i>
                 </div>
@@ -144,8 +144,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('index') }}">
-                            <i class="fas fa-home me-1"></i>Leaderboard
+                            <i class="fas fa-trophy me-1"></i>Leaderboard
                         </a>
                     </li>
                     <li class="nav-item">
@@ -156,11 +161,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('teams') }}">
                             <i class="fas fa-users me-1"></i>Teams
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">
-                            <i class="fas fa-info-circle me-1"></i>About
                         </a>
                     </li>
                 </ul>
