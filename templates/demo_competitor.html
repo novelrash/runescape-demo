@@ -4,249 +4,327 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ competitor.rsn }} - RuneScape Competition Demo</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/hybrid-style.css') }}" rel="stylesheet">
     <style>
+        /* Demo-specific banner */
         .demo-banner {
-            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 10px;
+            padding: 12px 20px;
             text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            font-weight: 600;
+            margin-bottom: 0;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
         }
+        
+        /* Adjust navbar for demo banner */
+        .navbar {
+            top: 45px;
+        }
+        
+        .main-content {
+            padding-top: 145px;
+            min-height: 100vh;
+        }
+        
         .player-header {
-            background: #2a2a2a;
-            padding: 30px;
-            border-radius: 10px;
-            border: 2px solid #444;
-            margin-bottom: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
             text-align: center;
+            margin-bottom: 2rem;
         }
+        
         .player-name {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #f7931e;
-            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
+        
         .player-team {
-            font-size: 1.2em;
-            color: #ccc;
-            margin-bottom: 20px;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
         }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .stat-card {
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid #444;
-        }
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        .stat-label {
-            color: #ccc;
-            margin-top: 5px;
-        }
-        .difficulty-breakdown {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
+        
         .difficulty-card {
-            padding: 15px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
+            padding: 1.5rem;
             text-align: center;
-            font-weight: bold;
+            height: 100%;
         }
-        .difficulty-easy { background: #4CAF50; color: white; }
-        .difficulty-medium { background: #FF9800; color: white; }
-        .difficulty-hard { background: #F44336; color: white; }
-        .difficulty-extreme { background: #9C27B0; color: white; }
-        .completions-section {
-            background: #2a2a2a;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #444;
-            margin: 20px 0;
+        
+        .difficulty-easy { border-left: 4px solid #28a745; }
+        .difficulty-medium { border-left: 4px solid #ffc107; }
+        .difficulty-hard { border-left: 4px solid #dc3545; }
+        .difficulty-extreme { border-left: 4px solid #6f42c1; }
+        
+        .difficulty-count {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
+        
+        .difficulty-easy .difficulty-count { color: #28a745; }
+        .difficulty-medium .difficulty-count { color: #ffc107; }
+        .difficulty-hard .difficulty-count { color: #dc3545; }
+        .difficulty-extreme .difficulty-count { color: #6f42c1; }
+        
         .completions-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
         }
-        .completions-table th,
-        .completions-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #444;
+        
+        .completions-table .table {
+            margin-bottom: 0;
         }
-        .completions-table th {
-            background: #333;
-            color: #f7931e;
-            font-weight: bold;
+        
+        .completions-table .table th {
+            background: var(--bg-tertiary);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+            font-weight: 600;
         }
-        .completions-table tr:hover {
-            background: #333;
+        
+        .completions-table .table td {
+            border-color: var(--border-color);
+            color: var(--text-secondary);
         }
-        .achievement-name {
-            font-weight: bold;
-            color: #f7931e;
+        
+        .difficulty-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
         }
-        .points-earned {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        .back-button {
-            display: inline-block;
-            background: #f7931e;
-            color: black;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .back-button:hover {
-            background: #ff6b35;
-        }
+        
+        .difficulty-badge.easy { background: #28a745; color: white; }
+        .difficulty-badge.medium { background: #ffc107; color: black; }
+        .difficulty-badge.hard { background: #dc3545; color: white; }
+        .difficulty-badge.extreme { background: #6f42c1; color: white; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="demo-banner">
-            🎮 DEMO VERSION - Player Profile System 🎮
-        </div>
-
-        <header>
-            <h1>👤 Player Profile</h1>
-            <nav>
-                <a href="{{ url_for('index') }}">Leaderboard</a>
-                <a href="{{ url_for('tiles') }}">Tiles</a>
-                <a href="{{ url_for('teams') }}">Teams</a>
-                <a href="{{ url_for('about') }}">About Demo</a>
-            </nav>
-        </header>
-
-        <a href="{{ url_for('index') }}" class="back-button">← Back to Leaderboard</a>
-
-        <div class="player-header">
-            <h1 class="player-name">{{ competitor.rsn }}</h1>
-            <div class="player-team">Team: {{ competitor.team_name or 'No Team' }}</div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">{{ stats.total_points }}</div>
-                <div class="stat-label">Total Points</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ stats.total_completions }}</div>
-                <div class="stat-label">Completions</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ ((stats.total_completions / 20) * 100)|round|int }}%</div>
-                <div class="stat-label">Progress</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ (stats.total_points / stats.total_completions)|round(1) if stats.total_completions > 0 else 0 }}</div>
-                <div class="stat-label">Avg Points</div>
-            </div>
-        </div>
-
-        <div class="completions-section">
-            <h3>📊 Difficulty Breakdown</h3>
-            <div class="difficulty-breakdown">
-                <div class="difficulty-card difficulty-easy">
-                    <div style="font-size: 1.5em;">{{ stats.easy_count }}</div>
-                    <div>Easy</div>
-                </div>
-                <div class="difficulty-card difficulty-medium">
-                    <div style="font-size: 1.5em;">{{ stats.medium_count }}</div>
-                    <div>Medium</div>
-                </div>
-                <div class="difficulty-card difficulty-hard">
-                    <div style="font-size: 1.5em;">{{ stats.hard_count }}</div>
-                    <div>Hard</div>
-                </div>
-                <div class="difficulty-card difficulty-extreme">
-                    <div style="font-size: 1.5em;">{{ stats.extreme_count }}</div>
-                    <div>Extreme</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="completions-section">
-            <h3>🏆 Achievement History</h3>
-            {% if completions %}
-            <table class="completions-table">
-                <thead>
-                    <tr>
-                        <th>Achievement</th>
-                        <th>Description</th>
-                        <th>Difficulty</th>
-                        <th>Points</th>
-                        <th>Completed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for completion in completions %}
-                    <tr>
-                        <td class="achievement-name">{{ completion.name }}</td>
-                        <td>{{ completion.description }}</td>
-                        <td>
-                            <span class="tile-difficulty difficulty-{{ completion.difficulty.lower() }}" 
-                                  style="padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold;">
-                                {{ completion.difficulty }}
-                            </span>
-                        </td>
-                        <td class="points-earned">+{{ completion.points }}</td>
-                        <td>{{ completion.completed_at[:16] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <p style="text-align: center; color: #ccc; padding: 20px;">
-                No completions yet. Start completing achievements to see them here!
-            </p>
-            {% endif %}
-        </div>
-
-        <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; border: 2px solid #444; margin-top: 20px;">
-            <h3 style="color: #f7931e; margin-top: 0;">🎯 Performance Summary</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                <div>
-                    <strong>Strongest Category:</strong><br>
-                    <span style="color: #4CAF50;">
-                        {% if stats.extreme_count > 0 %}Extreme Challenges{% elif stats.hard_count > 0 %}Hard Challenges{% elif stats.medium_count > 0 %}Medium Challenges{% else %}Easy Challenges{% endif %}
-                    </span>
-                </div>
-                <div>
-                    <strong>Recent Activity:</strong><br>
-                    <span style="color: #4CAF50;">
-                        {% if completions %}{{ completions|length }} recent completions{% else %}No recent activity{% endif %}
-                    </span>
-                </div>
-                <div>
-                    <strong>Team Contribution:</strong><br>
-                    <span style="color: #4CAF50;">{{ stats.total_points }} points earned</span>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <p>🎮 RuneScape Competition Demo - Player: {{ competitor.rsn }}</p>
-        </footer>
+    <div class="demo-banner">
+        🎮 INTERACTIVE DEMO - Player Profile System 🎮
     </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <div class="logo-container">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <span class="brand-text">RuneScape Competition</span>
+                <span class="status-badge">Demo Mode</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">
+                            <i class="fas fa-home me-1"></i>Leaderboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tiles') }}">
+                            <i class="fas fa-th-large me-1"></i>Tiles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('teams') }}">
+                            <i class="fas fa-users me-1"></i>Teams
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">
+                            <i class="fas fa-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <!-- Back Button -->
+            <div class="mb-4">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Leaderboard
+                </a>
+            </div>
+
+            <!-- Player Header -->
+            <div class="player-header">
+                <h1 class="player-name">{{ competitor.rsn }}</h1>
+                <p class="player-team">
+                    <i class="fas fa-users me-2"></i>
+                    {{ competitor.team_name or 'No Team' }}
+                </p>
+            </div>
+
+            <!-- Player Stats -->
+            <div class="row g-4 mb-5">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number">{{ stats.total_points }}</div>
+                            <div class="stat-label">Total Points</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number">{{ stats.total_completions }}</div>
+                            <div class="stat-label">Completions</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number">{{ ((stats.total_completions / 20) * 100)|round|int }}%</div>
+                            <div class="stat-label">Progress</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number">{{ (stats.total_points / stats.total_completions)|round(1) if stats.total_completions > 0 else 0 }}</div>
+                            <div class="stat-label">Avg Points</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Difficulty Breakdown -->
+            <div class="row g-4 mb-5">
+                <div class="col-12">
+                    <h3 class="mb-4">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Difficulty Breakdown
+                    </h3>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="difficulty-card difficulty-easy">
+                        <div class="difficulty-count">{{ stats.easy_count }}</div>
+                        <div class="difficulty-label">Easy</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="difficulty-card difficulty-medium">
+                        <div class="difficulty-count">{{ stats.medium_count }}</div>
+                        <div class="difficulty-label">Medium</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="difficulty-card difficulty-hard">
+                        <div class="difficulty-count">{{ stats.hard_count }}</div>
+                        <div class="difficulty-label">Hard</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="difficulty-card difficulty-extreme">
+                        <div class="difficulty-count">{{ stats.extreme_count }}</div>
+                        <div class="difficulty-label">Extreme</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement History -->
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-4">
+                        <i class="fas fa-history me-2"></i>
+                        Achievement History
+                    </h3>
+                    
+                    {% if completions %}
+                    <div class="completions-table">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Achievement</th>
+                                        <th>Description</th>
+                                        <th>Difficulty</th>
+                                        <th>Points</th>
+                                        <th>Completed</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for completion in completions %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ completion.name }}</strong>
+                                        </td>
+                                        <td>{{ completion.description }}</td>
+                                        <td>
+                                            <span class="difficulty-badge {{ completion.difficulty.lower() }}">
+                                                {{ completion.difficulty }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success fw-bold">+{{ completion.points }}</span>
+                                        </td>
+                                        <td>{{ completion.completed_at[:16].replace('T', ' ') }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-trophy fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No completions yet</h5>
+                        <p class="text-muted">Start completing achievements to see them here!</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/hybrid-app.js') }}"></script>
 </body>
 </html>

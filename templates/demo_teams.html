@@ -22,8 +22,11 @@
             border-bottom: 3px solid rgba(255, 255, 255, 0.2);
             font-size: 0.95rem;
             letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1001;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
         }
         
         /* Adjust navbar for demo banner */
@@ -31,13 +34,9 @@
             top: 45px;
         }
         
-        body {
-            padding-top: 100px; /* Account for demo banner + navbar */
-        }
-        
-        /* Demo-specific adjustments */
-        .hero-section {
-            margin-top: 20px;
+        .main-content {
+            padding-top: 145px;
+            min-height: 100vh;
         }
     </style>
 </head>
@@ -47,15 +46,20 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-trophy me-2"></i>
-                RuneScape Competition
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <div class="logo-container">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <span class="brand-text">RuneScape Competition</span>
+                <span class="status-badge">Demo Mode</span>
             </a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -65,7 +69,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('tiles') }}">
-                            <i class="fas fa-target me-1"></i>Achievements
+                            <i class="fas fa-th-large me-1"></i>Tiles
                         </a>
                     </li>
                     <li class="nav-item">
@@ -75,7 +79,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('about') }}">
-                            <i class="fas fa-info-circle me-1"></i>About Demo
+                            <i class="fas fa-info-circle me-1"></i>About
                         </a>
                     </li>
                 </ul>
@@ -83,216 +87,124 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-section">
+    <div class="main-content">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="hero-content text-center">
-                        <h1 class="hero-title">
-                            <i class="fas fa-users text-primary me-3"></i>
-                            Team Championship
-                        </h1>
-                        <p class="hero-subtitle">Compete as a team and climb the leaderboards together</p>
-                    </div>
-                </div>
+            <!-- Page Header -->
+            <div class="page-header text-center mb-5">
+                <h1 class="page-title">Team Competition</h1>
+                <p class="page-subtitle">Compete as a team and climb the leaderboards together</p>
             </div>
-        </div>
-    </div>
 
-    <!-- Team Stats Overview -->
-    <div class="container mb-5">
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ teams|length }}</div>
-                        <div class="stat-label">Competing Teams</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-user-friends"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ teams|sum(attribute='member_count') }}</div>
-                        <div class="stat-label">Total Competitors</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ teams|sum(attribute='total_completions') }}</div>
-                        <div class="stat-label">Total Completions</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ teams|sum(attribute='total_points') }}</div>
-                        <div class="stat-label">Points Distributed</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Top 3 Teams Podium -->
-    {% if teams|length >= 3 %}
-    <div class="container mb-5">
-        <div class="podium-section">
-            <div class="section-header text-center mb-4">
-                <h2 class="section-title">
-                    <i class="fas fa-trophy text-warning me-2"></i>
-                    Championship Podium
-                </h2>
-            </div>
-            
-            <div class="podium-container">
-                <div class="row justify-content-center">
-                    <!-- 2nd Place -->
-                    <div class="col-lg-3 col-md-4 mb-4">
-                        <div class="podium-card podium-second">
-                            <div class="podium-rank">
-                                <i class="fas fa-medal text-secondary"></i>
-                                <span class="rank-number">2</span>
+            <!-- Team Stats Overview -->
+            <div class="stats-overview mb-5">
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
                             </div>
-                            <div class="team-info">
-                                <h4 class="team-name">{{ teams[1].name }}</h4>
-                                <div class="team-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">{{ teams[1].total_points }}</span>
-                                        <span class="stat-label">Points</span>
+                            <div class="stat-content">
+                                <div class="stat-number">{{ teams|length }}</div>
+                                <div class="stat-label">Teams</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">{{ teams|sum(attribute='member_count') }}</div>
+                                <div class="stat-label">Competitors</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">{{ teams|sum(attribute='total_completions') }}</div>
+                                <div class="stat-label">Completions</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">{{ teams|sum(attribute='total_points') }}</div>
+                                <div class="stat-label">Total Points</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teams Grid -->
+            <div class="teams-grid">
+                <div class="row g-4">
+                    {% for team in teams %}
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="team-card">
+                            <div class="team-header">
+                                <div class="team-rank">
+                                    {% if loop.index == 1 %}
+                                        <i class="fas fa-crown text-warning"></i>
+                                        <span class="rank-text">#1</span>
+                                    {% elif loop.index == 2 %}
+                                        <i class="fas fa-medal text-secondary"></i>
+                                        <span class="rank-text">#2</span>
+                                    {% elif loop.index == 3 %}
+                                        <i class="fas fa-medal text-warning"></i>
+                                        <span class="rank-text">#3</span>
+                                    {% else %}
+                                        <span class="rank-number">#{{ loop.index }}</span>
+                                    {% endif %}
+                                </div>
+                                <h3 class="team-name">{{ team.name }}</h3>
+                            </div>
+                            
+                            <div class="team-stats">
+                                <div class="stat-row">
+                                    <div class="stat-item">
+                                        <div class="stat-value">{{ team.total_points }}</div>
+                                        <div class="stat-label">Points</div>
                                     </div>
-                                    <div class="stat">
-                                        <span class="stat-value">{{ teams[1].member_count }}</span>
-                                        <span class="stat-label">Members</span>
+                                    <div class="stat-item">
+                                        <div class="stat-value">{{ team.member_count }}</div>
+                                        <div class="stat-label">Members</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">{{ team.total_completions }}</div>
+                                        <div class="stat-label">Completions</div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 1st Place -->
-                    <div class="col-lg-3 col-md-4 mb-4">
-                        <div class="podium-card podium-first">
-                            <div class="podium-rank">
-                                <i class="fas fa-crown text-warning"></i>
-                                <span class="rank-number">1</span>
-                            </div>
-                            <div class="team-info">
-                                <h4 class="team-name">{{ teams[0].name }}</h4>
-                                <div class="team-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">{{ teams[0].total_points }}</span>
-                                        <span class="stat-label">Points</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">{{ teams[0].member_count }}</span>
-                                        <span class="stat-label">Members</span>
-                                    </div>
+                            
+                            {% if team.members %}
+                            <div class="team-members">
+                                <div class="members-header">
+                                    <i class="fas fa-users me-2"></i>Team Members
+                                </div>
+                                <div class="members-list">
+                                    {% for member in team.members.split(',') %}
+                                    <a href="{{ url_for('competitor_detail', rsn=member) }}" class="member-tag">
+                                        {{ member }}
+                                    </a>
+                                    {% endfor %}
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
-                    
-                    <!-- 3rd Place -->
-                    <div class="col-lg-3 col-md-4 mb-4">
-                        <div class="podium-card podium-third">
-                            <div class="podium-rank">
-                                <i class="fas fa-medal text-warning"></i>
-                                <span class="rank-number">3</span>
-                            </div>
-                            <div class="team-info">
-                                <h4 class="team-name">{{ teams[2].name }}</h4>
-                                <div class="team-stats">
-                                    <div class="stat">
-                                        <span class="stat-value">{{ teams[2].total_points }}</span>
-                                        <span class="stat-label">Points</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value">{{ teams[2].member_count }}</span>
-                                        <span class="stat-label">Members</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- All Teams Grid -->
-    <div class="container mb-5">
-        <div class="section-header">
-            <h2 class="section-title">
-                <i class="fas fa-list text-info me-2"></i>
-                All Teams
-            </h2>
-            <p class="section-subtitle">Complete team standings and member rosters</p>
-        </div>
-        
-        <div class="row g-4">
-            {% for team in teams %}
-            <div class="col-lg-6 col-xl-4">
-                <div class="team-card">
-                    <div class="team-header">
-                        <div class="team-rank">
-                            {% if loop.index == 1 %}<i class="fas fa-crown text-warning"></i>
-                            {% elif loop.index == 2 %}<i class="fas fa-medal text-secondary"></i>
-                            {% elif loop.index == 3 %}<i class="fas fa-medal text-warning"></i>
-                            {% else %}<span class="rank-number">#{{ loop.index }}</span>{% endif %}
-                        </div>
-                        <h3 class="team-name">{{ team.name }}</h3>
-                    </div>
-                    
-                    <div class="team-stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-value">{{ team.total_points }}</div>
-                            <div class="stat-label">Points</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">{{ team.member_count }}</div>
-                            <div class="stat-label">Members</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">{{ team.total_completions }}</div>
-                            <div class="stat-label">Completions</div>
-                        </div>
-                    </div>
-                    
-                    {% if team.members %}
-                    <div class="team-members">
-                        <div class="members-header">
-                            <i class="fas fa-users me-2"></i>Team Roster
-                        </div>
-                        <div class="members-list">
-                            {% for member in team.members.split(',') %}
-                            <a href="{{ url_for('competitor_detail', rsn=member) }}" class="member-tag">
-                                <i class="fas fa-user me-1"></i>{{ member }}
-                            </a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
         </div>
     </div>
 

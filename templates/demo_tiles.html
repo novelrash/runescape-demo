@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Achievements - RuneScape Competition Demo</title>
+    <title>Challenge Tiles - RuneScape Competition Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -22,8 +22,11 @@
             border-bottom: 3px solid rgba(255, 255, 255, 0.2);
             font-size: 0.95rem;
             letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1001;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
         }
         
         /* Adjust navbar for demo banner */
@@ -31,13 +34,28 @@
             top: 45px;
         }
         
-        body {
-            padding-top: 100px; /* Account for demo banner + navbar */
+        /* Additional styles for tiles page */
+        .main-content {
+            padding-top: 145px;
+            min-height: 100vh;
         }
         
-        /* Demo-specific adjustments */
-        .hero-section {
-            margin-top: 20px;
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -47,15 +65,20 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-trophy me-2"></i>
-                RuneScape Competition
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <div class="logo-container">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <span class="brand-text">RuneScape Competition</span>
+                <span class="status-badge">Demo Mode</span>
             </a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -65,7 +88,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ url_for('tiles') }}">
-                            <i class="fas fa-target me-1"></i>Achievements
+                            <i class="fas fa-th-large me-1"></i>Tiles
                         </a>
                     </li>
                     <li class="nav-item">
@@ -75,7 +98,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('about') }}">
-                            <i class="fas fa-info-circle me-1"></i>About Demo
+                            <i class="fas fa-info-circle me-1"></i>About
                         </a>
                     </li>
                 </ul>
@@ -83,149 +106,72 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-section">
+    <div class="main-content">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="hero-content text-center">
-                        <h1 class="hero-title">
-                            <i class="fas fa-target text-success me-3"></i>
-                            Competition Achievements
-                        </h1>
-                        <p class="hero-subtitle">Complete challenges across four difficulty tiers to earn points</p>
-                    </div>
-                </div>
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Challenge Tiles</h1>
+                <p class="page-subtitle">Complete achievements across four difficulty tiers</p>
             </div>
-        </div>
-    </div>
 
-    <!-- Achievement Stats Overview -->
-    <div class="container mb-5">
-        <div class="row g-4">
-            {% set easy_count = tiles|selectattr('difficulty', 'equalto', 'Easy')|list|length %}
-            {% set medium_count = tiles|selectattr('difficulty', 'equalto', 'Medium')|list|length %}
-            {% set hard_count = tiles|selectattr('difficulty', 'equalto', 'Hard')|list|length %}
-            {% set extreme_count = tiles|selectattr('difficulty', 'equalto', 'Extreme')|list|length %}
-            
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card difficulty-easy">
-                    <div class="stat-icon">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ easy_count }}</div>
-                        <div class="stat-label">Easy</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card difficulty-medium">
-                    <div class="stat-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ medium_count }}</div>
-                        <div class="stat-label">Medium</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card difficulty-hard">
-                    <div class="stat-icon">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ hard_count }}</div>
-                        <div class="stat-label">Hard</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card difficulty-extreme">
-                    <div class="stat-icon">
-                        <i class="fas fa-skull"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-number">{{ extreme_count }}</div>
-                        <div class="stat-label">Extreme</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Filter Section -->
-    <div class="container mb-4">
-        <div class="filter-section">
-            <div class="section-header">
-                <h3 class="section-title">
-                    <i class="fas fa-filter me-2"></i>Filter Achievements
-                </h3>
-            </div>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">
-                    <i class="fas fa-th me-1"></i>All Achievements
-                </button>
-                <button class="filter-btn difficulty-easy" data-filter="Easy">
-                    <i class="fas fa-leaf me-1"></i>Easy
-                </button>
-                <button class="filter-btn difficulty-medium" data-filter="Medium">
-                    <i class="fas fa-star me-1"></i>Medium
-                </button>
-                <button class="filter-btn difficulty-hard" data-filter="Hard">
-                    <i class="fas fa-fire me-1"></i>Hard
-                </button>
-                <button class="filter-btn difficulty-extreme" data-filter="Extreme">
-                    <i class="fas fa-skull me-1"></i>Extreme
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Achievements Grid -->
-    <div class="container mb-5">
-        <div class="tiles-grid" id="tilesGrid">
-            {% for tile in tiles %}
-            <div class="tile-card" data-difficulty="{{ tile.difficulty }}">
-                <div class="tile-header">
-                    <div class="tile-info">
-                        <h4 class="tile-name">{{ tile.name }}</h4>
-                        <div class="tile-difficulty difficulty-{{ tile.difficulty.lower() }}">
-                            {% if tile.difficulty == 'Easy' %}<i class="fas fa-leaf me-1"></i>
-                            {% elif tile.difficulty == 'Medium' %}<i class="fas fa-star me-1"></i>
-                            {% elif tile.difficulty == 'Hard' %}<i class="fas fa-fire me-1"></i>
-                            {% else %}<i class="fas fa-skull me-1"></i>{% endif %}
-                            {{ tile.difficulty }}
+            <!-- Filter Controls -->
+            <div class="filter-controls mb-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="Easy">Easy</button>
+                            <button class="filter-btn" data-filter="Medium">Medium</button>
+                            <button class="filter-btn" data-filter="Hard">Hard</button>
+                            <button class="filter-btn" data-filter="Extreme">Extreme</button>
                         </div>
                     </div>
-                    <div class="tile-points">
-                        <i class="fas fa-coins me-1"></i>{{ tile.points }}
+                    <div class="col-md-6">
+                        <div class="tiles-count">
+                            <span id="visibleCount">{{ tiles|length }}</span> of {{ tiles|length }} tiles
+                        </div>
                     </div>
-                </div>
-                
-                <div class="tile-description">
-                    {{ tile.description }}
-                </div>
-                
-                <div class="tile-stats">
-                    <div class="completion-info">
-                        <i class="fas fa-check-circle me-1"></i>
-                        <span class="completion-count">{{ tile.completion_count }}</span>
-                        <span class="completion-label">completion{{ 's' if tile.completion_count != 1 else '' }}</span>
-                    </div>
-                    
-                    {% if tile.completed_by %}
-                    <div class="completed-by">
-                        <i class="fas fa-users me-1"></i>
-                        <span class="completed-list" title="{{ tile.completed_by }}">
-                            {{ tile.completed_by[:30] }}{% if tile.completed_by|length > 30 %}...{% endif %}
-                        </span>
-                    </div>
-                    {% endif %}
                 </div>
             </div>
-            {% endfor %}
+
+            <!-- Tiles Grid -->
+            <div class="tiles-container">
+                <div class="tiles-grid" id="tilesGrid">
+                    {% for tile in tiles %}
+                    <div class="tile-card" data-difficulty="{{ tile.difficulty }}" data-points="{{ tile.points }}">
+                        <div class="tile-header">
+                            <div class="tile-difficulty difficulty-{{ tile.difficulty.lower() }}">
+                                {{ tile.difficulty }}
+                            </div>
+                            <div class="tile-points">
+                                {{ tile.points }} pts
+                            </div>
+                        </div>
+                        
+                        <div class="tile-content">
+                            <h3 class="tile-title">{{ tile.name }}</h3>
+                            <p class="tile-description">{{ tile.description }}</p>
+                        </div>
+                        
+                        <div class="tile-footer">
+                            <div class="completion-stats">
+                                <i class="fas fa-check-circle me-1"></i>
+                                <span class="completion-count">{{ tile.completion_count }}</span>
+                                <span class="completion-text">completion{{ 's' if tile.completion_count != 1 else '' }}</span>
+                            </div>
+                            
+                            {% if tile.completed_by %}
+                            <div class="completed-by">
+                                <small class="text-muted">
+                                    Completed by: {{ tile.completed_by[:25] }}{% if tile.completed_by|length > 25 %}...{% endif %}
+                                </small>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 
@@ -237,6 +183,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const tileCards = document.querySelectorAll('.tile-card');
+            const visibleCountElement = document.getElementById('visibleCount');
+            
+            function updateVisibleCount() {
+                const visibleTiles = document.querySelectorAll('.tile-card:not([style*="display: none"])');
+                visibleCountElement.textContent = visibleTiles.length;
+            }
             
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -250,18 +202,12 @@
                     tileCards.forEach(card => {
                         if (filter === 'all' || card.getAttribute('data-difficulty') === filter) {
                             card.style.display = 'block';
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'translateY(0)';
-                            }, 50);
                         } else {
-                            card.style.opacity = '0';
-                            card.style.transform = 'translateY(20px)';
-                            setTimeout(() => {
-                                card.style.display = 'none';
-                            }, 300);
+                            card.style.display = 'none';
                         }
                     });
+                    
+                    updateVisibleCount();
                 });
             });
         });
