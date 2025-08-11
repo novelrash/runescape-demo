@@ -27,6 +27,17 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+def check_database_initialized():
+    """Check if database has been initialized with tables"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='teams'")
+        result = cursor.fetchone()
+        conn.close()
+        return result is not None
+    except:
+        return False
+
 def init_demo_db():
     """Initialize database with demo data"""
     conn = get_db_connection()
@@ -153,6 +164,11 @@ def init_demo_db():
 @app.route('/')
 def index():
     """Main leaderboard page"""
+    # Ensure database is initialized
+    if not check_database_initialized():
+        print("🚀 Initializing demo database...")
+        init_demo_db()
+    
     conn = get_db_connection()
     
     # Get team standings
@@ -206,6 +222,11 @@ def index():
 @app.route('/tiles')
 def tiles():
     """Tiles overview page"""
+    # Ensure database is initialized
+    if not check_database_initialized():
+        print("🚀 Initializing demo database...")
+        init_demo_db()
+    
     conn = get_db_connection()
     
     tiles = conn.execute('''
@@ -226,6 +247,11 @@ def tiles():
 @app.route('/teams')
 def teams():
     """Teams overview page"""
+    # Ensure database is initialized
+    if not check_database_initialized():
+        print("🚀 Initializing demo database...")
+        init_demo_db()
+    
     conn = get_db_connection()
     
     teams_data = conn.execute('''
@@ -249,6 +275,11 @@ def teams():
 @app.route('/competitor/<rsn>')
 def competitor_detail(rsn):
     """Individual competitor detail page"""
+    # Ensure database is initialized
+    if not check_database_initialized():
+        print("🚀 Initializing demo database...")
+        init_demo_db()
+    
     conn = get_db_connection()
     
     competitor = conn.execute('''
@@ -295,6 +326,11 @@ def competitor_detail(rsn):
 @app.route('/api/stats')
 def api_stats():
     """API endpoint for statistics"""
+    # Ensure database is initialized
+    if not check_database_initialized():
+        print("🚀 Initializing demo database...")
+        init_demo_db()
+    
     conn = get_db_connection()
     
     stats = {
@@ -314,8 +350,8 @@ def about():
     return render_template('demo_about.html', demo_mode=DEMO_MODE)
 
 if __name__ == '__main__':
-    # Initialize demo database if it doesn't exist
-    if not os.path.exists(DATABASE):
+    # Ensure database is initialized
+    if not check_database_initialized():
         print("🚀 Initializing demo database...")
         init_demo_db()
     
