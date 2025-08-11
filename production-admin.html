@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Pea Kingdom Bingo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/hybrid-style.css') }}" rel="stylesheet">
+    <style>
+        /* Admin Dashboard Styles */
+        .admin-header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .admin-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .admin-subtitle {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .stats-overview {
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--osrs-gold);
+            font-family: var(--font-mono);
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .admin-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            color: var(--osrs-gold);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .form-control {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 12px 16px;
+        }
+        
+        .form-control:focus {
+            background: var(--bg-secondary);
+            border-color: var(--osrs-gold);
+            box-shadow: 0 0 0 2px rgba(255, 176, 0, 0.2);
+            color: var(--text-primary);
+        }
+        
+        .btn-admin {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-admin:hover {
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 109, 109, 0.3);
+        }
+        
+        .btn-secondary-admin {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary-admin:hover {
+            border-color: var(--osrs-gold);
+            background: rgba(255, 176, 0, 0.1);
+            color: var(--text-primary);
+        }
+        
+        .btn-danger-admin {
+            background: #dc3545;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger-admin:hover {
+            background: #c82333;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .btn-success-admin {
+            background: #28a745;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success-admin:hover {
+            background: #218838;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .data-table {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .table {
+            margin: 0;
+            color: var(--text-primary);
+        }
+        
+        .table th {
+            background: var(--bg-tertiary);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 16px;
+        }
+        
+        .table td {
+            border-color: var(--border-color);
+            padding: 16px;
+            vertical-align: middle;
+        }
+        
+        .table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+        
+        .pending-submission {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+        }
+        
+        .approved-submission {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+        }
+        
+        .submission-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .user-team-badge {
+            background: var(--osrs-gold);
+            color: var(--bg-primary);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .tile-points {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .alert-admin {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-admin.alert-warning {
+            border-color: rgba(255, 193, 7, 0.3);
+            background: rgba(255, 193, 7, 0.1);
+        }
+        
+        .alert-admin.alert-success {
+            border-color: rgba(40, 167, 69, 0.3);
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .alert-admin.alert-danger {
+            border-color: rgba(220, 53, 69, 0.3);
+            background: rgba(220, 53, 69, 0.1);
+        }
+        
+        .nav-tabs-admin {
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .nav-tabs-admin .nav-link {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 12px 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tabs-admin .nav-link:hover {
+            color: var(--text-primary);
+            border-bottom-color: var(--border-hover);
+        }
+        
+        .nav-tabs-admin .nav-link.active {
+            color: var(--osrs-gold);
+            border-bottom-color: var(--osrs-gold);
+            background: transparent;
+        }
+        
+        .tab-content {
+            min-height: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            .management-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+            }
+            
+            .submission-actions {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+                <div class="logo-container">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <span class="brand-text">Pea Kingdom</span>
+                <span class="status-badge">Admin Panel</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('leaderboard') }}">
+                            <i class="fas fa-trophy"></i> Leaderboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tiles') }}">
+                            <i class="fas fa-th-large"></i> Tiles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_logout') }}">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="padding-top: 100px;">
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="admin-title">
+                            <i class="fas fa-cogs"></i> Admin Dashboard
+                        </h1>
+                        <p class="admin-subtitle">Comprehensive management panel for Pea Kingdom Bingo competition</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="quick-actions">
+                            <button class="btn btn-admin" onclick="refreshData()">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert-admin alert-{{ 'success' if category == 'success' else 'warning' if category == 'warning' else 'danger' }} alert-dismissible fade show" role="alert">
+                            <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-triangle' if category == 'warning' else 'exclamation-circle' }}"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Statistics Overview -->
+            <div class="stats-overview">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <span class="stat-number">{{ total_teams }}</span>
+                            <div class="stat-label">Teams</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <span class="stat-number">{{ total_competitors }}</span>
+                            <div class="stat-label">Players</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <span class="stat-number">{{ total_tiles }}</span>
+                            <div class="stat-label">Tiles</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <span class="stat-number">{{ pending_completions }}</span>
+                            <div class="stat-label">Pending Approvals</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Timer Status -->
+            <div class="timer-status-section mb-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="admin-section">
+                            <div class="section-title">
+                                <i class="fas fa-clock"></i>
+                                Event Timer Status
+                            </div>
+                            
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    {% if active_timer %}
+                                        <div class="timer-info">
+                                            <h5 class="mb-2">
+                                                <i class="fas fa-calendar-alt text-primary"></i>
+                                                {{ active_timer.event_name }}
+                                            </h5>
+                                            <div class="timer-details">
+                                                <p class="mb-1">
+                                                    <strong>Start Time:</strong> 
+                                                    <span class="text-info">{{ active_timer.start_time.strftime('%Y-%m-%d %H:%M UTC') }}</span>
+                                                </p>
+                                                <p class="mb-1">
+                                                    <strong>Status:</strong>
+                                                    {% if event_started %}
+                                                        <span class="badge bg-success">
+                                                            <i class="fas fa-play-circle"></i> Event Started - Submissions Open
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="badge bg-warning text-dark">
+                                                            <i class="fas fa-lock"></i> Event Locked - Submissions Blocked
+                                                        </span>
+                                                    {% endif %}
+                                                </p>
+                                                <p class="mb-0">
+                                                    <small class="text-muted">
+                                                        Created by {{ active_timer.created_by or 'Admin' }} on {{ active_timer.created_at.strftime('%Y-%m-%d %H:%M') }}
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="timer-info">
+                                            <h5 class="mb-2">
+                                                <i class="fas fa-unlock text-success"></i>
+                                                No Timer Set
+                                            </h5>
+                                            <p class="mb-0 text-muted">
+                                                Tile submissions are currently open to all users. Set a timer to control event access.
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <a href="{{ url_for('admin_event_timer') }}" class="btn btn-lg manage-timer-btn" 
+                                       style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); 
+                                              border: none; 
+                                              color: white; 
+                                              font-weight: 600; 
+                                              padding: 12px 24px; 
+                                              border-radius: 8px; 
+                                              box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+                                              transition: all 0.2s ease;
+                                              text-decoration: none;"
+                                       onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(255, 107, 53, 0.4)'"
+                                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255, 107, 53, 0.3)'">
+                                        <i class="fas fa-cog me-2"></i>
+                                        Manage Timer
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Management Tabs -->
+            <ul class="nav nav-tabs nav-tabs-admin" id="adminTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="completions-tab" data-bs-toggle="tab" data-bs-target="#completions" type="button" role="tab">
+                        <i class="fas fa-list"></i> View Completions
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">
+                        <i class="fas fa-users"></i> Manage Users
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="teams-tab" data-bs-toggle="tab" data-bs-target="#teams" type="button" role="tab">
+                        <i class="fas fa-flag"></i> Manage Teams
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tiles-tab" data-bs-toggle="tab" data-bs-target="#tiles" type="button" role="tab">
+                        <i class="fas fa-th-large"></i> Manage Tiles
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="timer-tab" data-bs-toggle="tab" data-bs-target="#timer" type="button" role="tab">
+                        <i class="fas fa-clock"></i> Event Timer
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="adminTabContent">
+                <!-- View Completions Tab -->
+                <div class="tab-pane fade show active" id="completions" role="tabpanel">
+                    <div class="admin-section">
+                        <div class="section-title">
+                            <i class="fas fa-list"></i>
+                            All Completions (Page {{ completions_pagination.page }} of {{ completions_pagination.pages }})
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="badge bg-success">{{ total_completions }} Approved</span>
+                                <span class="badge bg-warning text-dark">{{ pending_completions }} Pending</span>
+                            </div>
+                            <div class="pagination-info">
+                                Showing {{ ((completions_pagination.page - 1) * 10) + 1 }} - {{ ((completions_pagination.page - 1) * 10) + completions|length }} of {{ completions_pagination.total }} completions
+                            </div>
+                        </div>
+                        
+                        {% if completions %}
+                            <div class="data-table">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Team</th>
+                                            <th>Tile</th>
+                                            <th>Points</th>
+                                            <th>Submitted By</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for completion in completions %}
+                                        <tr class="{% if not completion.admin_approved %}pending-submission{% endif %}">
+                                            <td>
+                                                <small>{{ completion.completed_at.strftime('%m/%d/%Y %H:%M') }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="user-team-badge">{{ completion.team.name }}</span>
+                                            </td>
+                                            <td>{{ completion.tile.name }}</td>
+                                            <td>
+                                                <span class="tile-points">{{ completion.tile.points }}</span>
+                                            </td>
+                                            <td>
+                                                {% if completion.submitted_by_player %}
+                                                    <strong>{{ completion.submitted_by_player.name }}</strong>
+                                                {% else %}
+                                                    <em class="text-muted">Admin</em>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if completion.admin_approved %}
+                                                    <span class="badge bg-success">
+                                                        <i class="fas fa-check"></i> Approved
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge bg-warning text-dark">
+                                                        <i class="fas fa-clock"></i> Pending
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <div class="submission-actions">
+                                                    {% if not completion.admin_approved %}
+                                                    <form method="POST" action="{{ url_for('approve_completion', completion_id=completion.id) }}" style="display: inline;">
+                                                        <button type="submit" class="btn btn-success-admin" title="Approve">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </form>
+                                                    {% endif %}
+                                                    <form method="POST" action="{{ url_for('remove_completion', completion_id=completion.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure?')">
+                                                        <button type="submit" class="btn btn-danger-admin" title="Remove">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Pagination Controls -->
+                            <div class="d-flex justify-content-center mt-4">
+                                <nav aria-label="Completions pagination">
+                                    <ul class="pagination">
+                                        {% if completions_pagination.has_prev %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{ url_for('admin_dashboard', page=completions_pagination.prev_num) }}">
+                                                    <i class="fas fa-chevron-left"></i> Previous
+                                                </a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                                <span class="page-link">
+                                                    <i class="fas fa-chevron-left"></i> Previous
+                                                </span>
+                                            </li>
+                                        {% endif %}
+                                        
+                                        {% for page_num in completions_pagination.iter_pages() %}
+                                            {% if page_num %}
+                                                {% if page_num != completions_pagination.page %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="{{ url_for('admin_dashboard', page=page_num) }}">{{ page_num }}</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="page-item active">
+                                                        <span class="page-link">{{ page_num }}</span>
+                                                    </li>
+                                                {% endif %}
+                                            {% else %}
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">...</span>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        
+                                        {% if completions_pagination.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{ url_for('admin_dashboard', page=completions_pagination.next_num) }}">
+                                                    Next <i class="fas fa-chevron-right"></i>
+                                                </a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                                <span class="page-link">
+                                                    Next <i class="fas fa-chevron-right"></i>
+                                                </span>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        {% else %}
+                            <div class="alert-admin alert-info">
+                                <i class="fas fa-clipboard-list"></i>
+                                No completions yet. Tile completions will appear here as they are submitted.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Manage Users Tab -->
+                <div class="tab-pane fade" id="users" role="tabpanel">
+                    <div class="management-grid">
+                        <!-- Add Users -->
+                        <div class="admin-section">
+                            <div class="section-title">
+                                <i class="fas fa-user-plus"></i>
+                                Add Users
+                            </div>
+                            <form method="POST" action="{{ url_for('add_competitor') }}">
+                                <div class="form-group">
+                                    <label class="form-label">User Names (comma-separated)</label>
+                                    <textarea class="form-control" name="player_input" rows="3" placeholder="Player1, Player2, Player3..." required></textarea>
+                                    <small class="text-muted">Enter multiple usernames separated by commas</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Assign to Team</label>
+                                    <select class="form-control" name="team_id" required>
+                                        <option value="">Select Team</option>
+                                        {% for team in teams %}
+                                            <option value="{{ team.id }}">{{ team.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-admin">
+                                    <i class="fas fa-plus"></i> Add Users
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Manage User-Team Assignments -->
+                        <div class="admin-section">
+                            <div class="section-title">
+                                <i class="fas fa-exchange-alt"></i>
+                                User-Team Management
+                            </div>
+                            <div class="data-table" style="max-height: 400px; overflow-y: auto;">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Team</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for competitor in competitors %}
+                                        <tr>
+                                            <td>{{ competitor.name }}</td>
+                                            <td>
+                                                <span class="user-team-badge">{{ competitor.team.name }}</span>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{{ url_for('remove_competitor', competitor_id=competitor.id) }}" style="display: inline;" onsubmit="return confirm('Remove {{ competitor.name }}?')">
+                                                    <button type="submit" class="btn btn-danger-admin btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Teams Tab -->
+                <div class="tab-pane fade" id="teams" role="tabpanel">
+                    <div class="management-grid">
+                        <!-- Add Team -->
+                        <div class="admin-section">
+                            <div class="section-title">
+                                <i class="fas fa-plus-circle"></i>
+                                Add Team
+                            </div>
+                            <form method="POST" action="{{ url_for("add_team") }}">
+                                <div class="form-group">
+                                    <label class="form-label">Team Name</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Enter team name" required>
+                                </div>
+                                <button type="submit" class="btn btn-admin">
+                                    <i class="fas fa-plus"></i> Create Team
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Edit Team Names -->
+                        <div class="admin-section">
+                            <div class="section-title">
+                                <i class="fas fa-edit"></i>
+                                Edit Team Names
+                            </div>
+                            <div class="data-table" style="max-height: 400px; overflow-y: auto;">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Current Name</th>
+                                            <th>New Name</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for team in teams %}
+                                        <tr>
+                                            <td><strong>{{ team.name }}</strong></td>
+                                            <td>
+                                                <form method="POST" action="{{ url_for("edit_team_name", team_id=team.id) }}" style="display: inline-flex; gap: 8px; align-items: center;">
+                                                    <input type="text" class="form-control form-control-sm" name="new_name" value="{{ team.name }}" style="min-width: 150px;">
+                                                    <button type="submit" class="btn btn-success-admin btn-sm">
+                                                        <i class="fas fa-save"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{{ url_for("remove_team", team_id=team.id) }}" style="display: inline;" onsubmit="return confirm("Remove team {{ team.name }}? This will remove all members too.")">
+                                                    <button type="submit" class="btn btn-danger-admin btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Membership Management -->
+                    <div class="admin-section">
+                        <div class="section-title">
+                            <i class="fas fa-users-cog"></i>
+                            Team Membership Management
+                        </div>
+                        <div class="row">
+                            {% for team in teams %}
+                            <div class="col-md-6 mb-4">
+                                <div class="admin-section" style="margin: 0;">
+                                    <h6 class="mb-3">
+                                        <span class="user-team-badge">{{ team.name }}</span>
+                                        <small class="text-muted">({{ team.competitors|length }} members)</small>
+                                    </h6>
+                                    
+                                    <!-- Current Members -->
+                                    <div class="mb-3">
+                                        <strong>Current Members:</strong>
+                                        <div class="mt-2">
+                                            {% for competitor in team.competitors %}
+                                            <div class="d-flex justify-content-between align-items-center mb-2 p-2" style="background: var(--bg-secondary); border-radius: 6px;">
+                                                <span>{{ competitor.name }}</span>
+                                                <div>
+                                                    <!-- Move to different team -->
+                                                    <form method="POST" action="{{ url_for("move_user_to_team", user_id=competitor.id) }}" style="display: inline;">
+                                                        <select name="new_team_id" class="form-control form-control-sm d-inline-block" style="width: auto; font-size: 0.8rem;" onchange="this.form.submit()">
+                                                            <option value="">Move to...</option>
+                                                            {% for other_team in teams %}
+                                                                {% if other_team.id != team.id %}
+                                                                <option value="{{ other_team.id }}">{{ other_team.name }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </form>
+                                                    <!-- Remove user -->
+                                                    <form method="POST" action="{{ url_for("remove_competitor", competitor_id=competitor.id) }}" style="display: inline;" onsubmit="return confirm("Remove {{ competitor.name }}?")">
+                                                        <button type="submit" class="btn btn-danger-admin btn-sm ms-1">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% if team.competitors|length == 0 %}
+                                            <small class="text-muted">No members yet</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Tiles Tab -->
+                <div class="tab-pane fade" id="tiles" role="tabpanel">
+                    <div class="management-grid">
+                        <!-- Add Tiles -->
+                        <div class="admin-section">
+                            <div class="section-title">
+                                <i class="fas fa-plus-square"></i>
+                                Add Tiles
+                            </div>
+                            <form method="POST" action="{{ url_for('add_tile') }}">
+                                <div class="form-group">
+                                    <label class="form-label">Tile Names (comma-separated)</label>
+                                    <textarea class="form-control" name="tile_input" rows="4" placeholder="Tile Name 1:20, Tile Name 2:30, Tile Name 3:50..." required></textarea>
+                                    <small class="text-muted">Format: "Tile Name:Points" separated by commas</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Description (optional)</label>
+                                    <textarea class="form-control" name="description" rows="2" placeholder="Optional description for all tiles"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-admin">
+                                    <i class="fas fa-plus"></i> Add Tiles
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Manage Tiles -->
+                        <div class="admin-section">
+                            <div class="section-title">
+                                <i class="fas fa-th-large"></i>
+                                Existing Tiles ({{ total_tiles }})
+                            </div>
+                            <div class="data-table" style="max-height: 500px; overflow-y: auto;">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Tile Name</th>
+                                            <th>Points</th>
+                                            <th>Completions</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for tile in tiles %}
+                                        <tr>
+                                            <td>{{ tile.name }}</td>
+                                            <td>
+                                                <span class="tile-points">{{ tile.points }}</span>
+                                            </td>
+                                            <td>{{ tile.completion_count }}</td>
+                                            <td>
+                                                <form method="POST" action="{{ url_for('remove_tile', tile_id=tile.id) }}" style="display: inline;" onsubmit="return confirm('Remove tile {{ tile.name }}?')">
+                                                    <button type="submit" class="btn btn-danger-admin btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event Timer Tab -->
+                <div class="tab-pane fade" id="timer" role="tabpanel">
+                    <div class="admin-section">
+                        <div class="section-title">
+                            <i class="fas fa-clock"></i>
+                            Event Timer Management
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="alert-admin alert-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    <strong>Event Timer Control:</strong> Set a start time to lock tile submissions until the event begins. 
+                                    The countdown will appear on the home page and users won't be able to submit tiles until the timer expires.
+                                </div>
+                                
+                                {% if active_timer %}
+                                    <div class="alert-admin alert-warning">
+                                        <h6><i class="fas fa-clock"></i> Current Timer: {{ active_timer.event_name }}</h6>
+                                        <p class="mb-1">Start Time: {{ active_timer.start_time.strftime('%Y-%m-%d %H:%M UTC') }}</p>
+                                        <p class="mb-0">
+                                            Status: 
+                                            {% if event_started %}
+                                                <span class="badge bg-success">Event Started</span>
+                                            {% else %}
+                                                <span class="badge bg-warning text-dark">Submissions Locked</span>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="alert-admin alert-success">
+                                        <i class="fas fa-unlock"></i>
+                                        <strong>No Timer Active:</strong> Tile submissions are currently open to all users.
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <a href="{{ url_for('admin_event_timer') }}" class="btn btn-lg w-100 manage-timer-btn"
+                                       style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); 
+                                              border: none; 
+                                              color: white; 
+                                              font-weight: 600; 
+                                              padding: 16px 24px; 
+                                              border-radius: 8px; 
+                                              box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+                                              transition: all 0.2s ease;
+                                              text-decoration: none;"
+                                       onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(255, 107, 53, 0.4)'"
+                                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255, 107, 53, 0.3)'">
+                                        <i class="fas fa-cog me-2"></i>
+                                        Manage Timer
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Refresh data function
+        function refreshData() {
+            location.reload();
+        }
+
+        // Auto-refresh pending submissions every 30 seconds
+        setInterval(function() {
+            if (document.getElementById('approvals-tab').classList.contains('active')) {
+                // Only refresh if on approvals tab
+                const pendingCount = {{ pending_completions }};
+                if (pendingCount > 0) {
+                    refreshData();
+                }
+            }
+        }, 30000);
+
+        // Confirmation dialogs for dangerous actions
+        document.querySelectorAll('form[onsubmit*="confirm"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const message = this.getAttribute('onsubmit').match(/confirm\('([^']+)'\)/)[1];
+                if (!confirm(message)) {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.alert-admin').forEach(alert => {
+                if (alert.classList.contains('show')) {
+                    alert.classList.remove('show');
+                    setTimeout(() => {
+                        if (alert.parentNode) {
+                            alert.parentNode.removeChild(alert);
+                        }
+                    }, 150);
+                }
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

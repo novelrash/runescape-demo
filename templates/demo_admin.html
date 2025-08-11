@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - RuneScape Competition Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/hybrid-style.css') }}" rel="stylesheet">
+    <style>
+        /* Demo-specific banner */
+        .demo-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 0;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
+        }
+        
+        /* Adjust navbar for demo banner */
+        .navbar {
+            top: 45px;
+        }
+        
+        .main-content {
+            padding-top: 145px;
+            min-height: 100vh;
+        }
+        
+        .admin-header {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .admin-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .admin-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .admin-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+        
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+        
+        .admin-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .admin-card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .admin-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .admin-card-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-btn {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .admin-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .admin-btn-primary {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            color: white;
+        }
+        
+        .admin-btn-primary:hover {
+            background: var(--primary-gradient);
+            opacity: 0.9;
+            color: white;
+        }
+        
+        .demo-notice {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05));
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .demo-notice-icon {
+            font-size: 2rem;
+            color: #ffc107;
+            margin-bottom: 12px;
+        }
+        
+        .demo-notice-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .demo-notice-text {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .stats-overview {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 4px;
+            font-family: var(--font-mono);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .back-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🎮 INTERACTIVE DEMO - Admin Dashboard with Simulated Access 🎮
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid px-3">
+            <a class="navbar-brand d-flex align-items-center flex-shrink-0" href="{{ url_for('home') }}">
+                <div class="logo-container">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <span class="brand-text">RuneScape Competition</span>
+                <span class="status-badge">Demo Mode</span>
+            </a>
+            
+            <div class="flex-grow-1"></div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">
+                            <i class="fas fa-trophy me-1"></i>Leaderboards
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tiles') }}">
+                            <i class="fas fa-th-large me-1"></i>Tiles
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <!-- Back Button -->
+            <div class="mb-4">
+                <a href="{{ url_for('index') }}" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>Back to Leaderboards
+                </a>
+            </div>
+
+            <!-- Admin Header -->
+            <div class="admin-header">
+                <div class="admin-badge">Admin Access</div>
+                <h1 class="admin-title">Competition Dashboard</h1>
+                <p class="admin-subtitle">Manage teams, competitors, and achievements</p>
+            </div>
+
+            <!-- Demo Notice -->
+            <div class="demo-notice">
+                <div class="demo-notice-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3 class="demo-notice-title">Demo Admin Dashboard</h3>
+                <p class="demo-notice-text">
+                    This is a simulated admin interface showcasing the management capabilities of the production system. 
+                    All actions are for demonstration purposes only.
+                </p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-overview">
+                <h3 class="mb-3">
+                    <i class="fas fa-chart-bar me-2 text-primary"></i>
+                    Competition Statistics
+                </h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ stats.total_teams }}</div>
+                        <div class="stat-label">Teams</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ stats.total_competitors }}</div>
+                        <div class="stat-label">Competitors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ stats.total_tiles }}</div>
+                        <div class="stat-label">Achievements</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ stats.total_completions }}</div>
+                        <div class="stat-label">Completions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Functions -->
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4 class="admin-card-title">Team Management</h4>
+                    </div>
+                    <p class="admin-card-description">
+                        Create, edit, and manage competition teams. Add or remove members, track team performance, and manage team settings.
+                    </p>
+                    <div class="admin-actions">
+                        <a href="#" class="admin-btn admin-btn-primary" onclick="showDemoAlert('Team Management')">
+                            <i class="fas fa-plus"></i>Add Team
+                        </a>
+                        <a href="#" class="admin-btn" onclick="showDemoAlert('Team Management')">
+                            <i class="fas fa-edit"></i>Edit Teams
+                        </a>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h4 class="admin-card-title">Competitor Management</h4>
+                    </div>
+                    <p class="admin-card-description">
+                        Manage individual competitors, assign them to teams, track their progress, and handle competitor registrations.
+                    </p>
+                    <div class="admin-actions">
+                        <a href="#" class="admin-btn admin-btn-primary" onclick="showDemoAlert('Competitor Management')">
+                            <i class="fas fa-user-plus"></i>Add Competitor
+                        </a>
+                        <a href="#" class="admin-btn" onclick="showDemoAlert('Competitor Management')">
+                            <i class="fas fa-edit"></i>Manage
+                        </a>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <h4 class="admin-card-title">Achievement System</h4>
+                    </div>
+                    <p class="admin-card-description">
+                        Create and manage achievements, set difficulty levels and point values, and organize achievement categories.
+                    </p>
+                    <div class="admin-actions">
+                        <a href="#" class="admin-btn admin-btn-primary" onclick="showDemoAlert('Achievement System')">
+                            <i class="fas fa-plus"></i>Add Achievement
+                        </a>
+                        <a href="#" class="admin-btn" onclick="showDemoAlert('Achievement System')">
+                            <i class="fas fa-cog"></i>Configure
+                        </a>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h4 class="admin-card-title">Submission Review</h4>
+                    </div>
+                    <p class="admin-card-description">
+                        Review and verify achievement submissions, approve or reject completions, and manage the verification process.
+                    </p>
+                    <div class="admin-actions">
+                        <a href="#" class="admin-btn admin-btn-primary" onclick="showDemoAlert('Submission Review')">
+                            <i class="fas fa-eye"></i>Review Queue
+                        </a>
+                        <a href="#" class="admin-btn" onclick="showDemoAlert('Submission Review')">
+                            <i class="fas fa-history"></i>History
+                        </a>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4 class="admin-card-title">Analytics & Reports</h4>
+                    </div>
+                    <p class="admin-card-description">
+                        Generate detailed reports, view competition analytics, track participation rates, and export data for analysis.
+                    </p>
+                    <div class="admin-actions">
+                        <a href="#" class="admin-btn admin-btn-primary" onclick="showDemoAlert('Analytics & Reports')">
+                            <i class="fas fa-chart-bar"></i>View Reports
+                        </a>
+                        <a href="#" class="admin-btn" onclick="showDemoAlert('Analytics & Reports')">
+                            <i class="fas fa-download"></i>Export
+                        </a>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h4 class="admin-card-title">System Settings</h4>
+                    </div>
+                    <p class="admin-card-description">
+                        Configure competition settings, manage user permissions, set up integrations, and handle system maintenance.
+                    </p>
+                    <div class="admin-actions">
+                        <a href="#" class="admin-btn admin-btn-primary" onclick="showDemoAlert('System Settings')">
+                            <i class="fas fa-cog"></i>Settings
+                        </a>
+                        <a href="#" class="admin-btn" onclick="showDemoAlert('System Settings')">
+                            <i class="fas fa-users-cog"></i>Permissions
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/hybrid-app.js') }}"></script>
+    <script>
+        function showDemoAlert(feature) {
+            alert(`🎮 Demo Feature: ${feature}\n\nThis would open the ${feature} interface in the production system. All admin functions are simulated for demonstration purposes.`);
+        }
+    </script>
+</body>
+</html>

@@ -87,6 +87,43 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
+        /* Integrated top 3 styling */
+        .team-row.rank-1 {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), var(--bg-card));
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+        }
+        
+        .team-row.rank-2 {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), var(--bg-card));
+            border-color: rgba(192, 192, 192, 0.3);
+            box-shadow: 0 0 0 1px rgba(192, 192, 192, 0.2);
+        }
+        
+        .team-row.rank-3 {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.1), var(--bg-card));
+            border-color: rgba(205, 127, 50, 0.3);
+            box-shadow: 0 0 0 1px rgba(205, 127, 50, 0.2);
+        }
+        
+        .individual-row.rank-1 {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), var(--bg-card));
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+        }
+        
+        .individual-row.rank-2 {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), var(--bg-card));
+            border-color: rgba(192, 192, 192, 0.3);
+            box-shadow: 0 0 0 1px rgba(192, 192, 192, 0.2);
+        }
+        
+        .individual-row.rank-3 {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.1), var(--bg-card));
+            border-color: rgba(205, 127, 50, 0.3);
+            box-shadow: 0 0 0 1px rgba(205, 127, 50, 0.2);
+        }
+        
         .team-header {
             padding: 12px 16px;
             display: flex;
@@ -104,6 +141,10 @@
             font-size: 1.1rem;
             color: var(--text-primary);
         }
+        
+        .rank-1 .rank-number { color: #ffd700; }
+        .rank-2 .rank-number { color: #c0c0c0; }
+        .rank-3 .rank-number { color: #cd7f32; }
         
         .team-info {
             flex: 1;
@@ -299,10 +340,34 @@
             font-size: 0.9rem;
         }
         
-        /* Rank styling */
-        .rank-1 { color: #ffd700; }
-        .rank-2 { color: #c0c0c0; }
-        .rank-3 { color: #cd7f32; }
+        /* Admin access button */
+        .admin-access {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .admin-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -366,15 +431,15 @@
                             <i class="fas fa-users text-primary"></i>
                             Team Standings
                         </h2>
-                        <p class="section-subtitle">Current team rankings and member progress</p>
+                        <p class="section-subtitle">Top 10 teams and member progress</p>
                     </div>
                     
                     <div class="teams-container">
-                        {% for team in team_standings %}
-                        <div class="team-row">
+                        {% for team in team_standings[:10] %}
+                        <div class="team-row rank-{{ loop.index }}">
                             <div class="team-header" onclick="toggleTeamMembers({{ loop.index }})">
                                 <div class="team-rank">
-                                    <span class="rank-number rank-{{ loop.index }}">
+                                    <span class="rank-number">
                                         {% if loop.index == 1 %}🥇
                                         {% elif loop.index == 2 %}🥈
                                         {% elif loop.index == 3 %}🥉
@@ -440,15 +505,15 @@
                             <i class="fas fa-user text-warning"></i>
                             Individual Champions
                         </h2>
-                        <p class="section-subtitle">Top performing individual competitors</p>
+                        <p class="section-subtitle">Top 10 performing competitors</p>
                     </div>
                     
                     <div class="individuals-container">
-                        {% for player in individual_standings %}
-                        <div class="individual-row">
+                        {% for player in individual_standings[:10] %}
+                        <div class="individual-row rank-{{ loop.index }}">
                             <div class="individual-header" onclick="window.location.href='{{ url_for('competitor_detail', rsn=player.rsn) }}'">
                                 <div class="individual-rank">
-                                    <span class="rank-number rank-{{ loop.index }}">
+                                    <span class="rank-number">
                                         {% if loop.index == 1 %}🥇
                                         {% elif loop.index == 2 %}🥈
                                         {% elif loop.index == 3 %}🥉
@@ -478,46 +543,15 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Recent Activity Section -->
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="section-header">
-                        <h2 class="section-title">
-                            <i class="fas fa-clock text-success"></i>
-                            Recent Activity
-                        </h2>
-                        <p class="section-subtitle">Latest achievement completions</p>
-                    </div>
-                    
-                    <div class="individuals-container">
-                        {% for completion in recent_completions %}
-                        <div class="individual-row">
-                            <div class="individual-header">
-                                <div class="individual-info">
-                                    <div class="individual-name">{{ completion.rsn }} completed {{ completion.tile_name }}</div>
-                                    <div class="individual-stats">
-                                        <div class="stat-item">
-                                            <i class="fas fa-users"></i>
-                                            {{ completion.team_name }}
-                                        </div>
-                                        <div class="stat-item">
-                                            <i class="fas fa-coins"></i>
-                                            +{{ completion.points }} points
-                                        </div>
-                                        <div class="stat-item">
-                                            <i class="fas fa-clock"></i>
-                                            {{ completion.completed_at[:16].replace('T', ' ') }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
         </div>
+    </div>
+
+    <!-- Admin Access Button -->
+    <div class="admin-access">
+        <a href="{{ url_for('admin_dashboard') }}" class="admin-btn">
+            <i class="fas fa-cog"></i>
+            Demo Admin
+        </a>
     </div>
 
     <!-- Bootstrap JS -->

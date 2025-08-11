@@ -248,6 +248,29 @@ def tiles():
     
     return render_template('demo_tiles.html', tiles=tiles, demo_mode=DEMO_MODE)
 
+@app.route('/admin')
+def admin_dashboard():
+    """Demo admin dashboard with simulated access"""
+    # Ensure database is initialized
+    if not check_database_initialized():
+        print("🚀 Initializing demo database...")
+        init_demo_db()
+    
+    conn = get_db_connection()
+    
+    # Get stats for admin dashboard
+    stats = {
+        'total_teams': conn.execute('SELECT COUNT(*) FROM teams').fetchone()[0],
+        'total_competitors': conn.execute('SELECT COUNT(*) FROM competitors').fetchone()[0],
+        'total_tiles': conn.execute('SELECT COUNT(*) FROM tiles').fetchone()[0],
+        'total_completions': conn.execute('SELECT COUNT(*) FROM completions').fetchone()[0],
+        'demo_mode': DEMO_MODE
+    }
+    
+    conn.close()
+    
+    return render_template('demo_admin.html', stats=stats, demo_mode=DEMO_MODE)
+
 @app.route('/competitor/<rsn>')
 def competitor_detail(rsn):
     """Individual competitor detail page"""
