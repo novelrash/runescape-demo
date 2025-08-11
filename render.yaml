@@ -5,8 +5,6 @@ services:
     dockerfilePath: ./Dockerfile.demo
     plan: free
     region: oregon
-    buildCommand: ""
-    startCommand: ""
     envVars:
       - key: FLASK_ENV
         value: production
@@ -16,7 +14,3 @@ services:
         value: "true"
     healthCheckPath: /api/stats
     autoDeploy: true
-    disk:
-      name: demo-data
-      mountPath: /app/data
-      sizeGB: 1
